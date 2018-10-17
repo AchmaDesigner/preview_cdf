@@ -1,0 +1,3988 @@
+window.mobilecheck = function() {
+	var check = false;
+  (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4)))check = true})(navigator.userAgent||navigator.vendor||window.opera);
+  return check;
+}
+
+var top_height = 1200;
+var QueryString = function () {
+  // This function is anonymous, is executed immediately and
+  // the return value is assigned to QueryString!
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+	var pair = vars[i].split("=");
+		// If first entry with this name
+	if (typeof query_string[pair[0]] === "undefined") {
+	  query_string[pair[0]] = decodeURIComponent(pair[1]);
+		// If second entry with this name
+	} else if (typeof query_string[pair[0]] === "string") {
+	  var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+	  query_string[pair[0]] = arr;
+		// If third or later entry with this name
+	} else {
+	  query_string[pair[0]].push(decodeURIComponent(pair[1]));
+	}
+  }
+	return query_string;
+}();
+
+
+jQuery.fn.ignore = function(sel){
+  return this.clone().find(sel).remove().end();
+};
+jQuery.fn.hasIn = function(val) {
+	if(this.val() == '')
+		return false;
+
+	if(jQuery.trim(this.val()).indexOf(val) > -1 ) {
+			return true;
+	}
+	return false;
+}
+
+window.onload = function () {
+
+jQuery(document).ready(function($) {
+	var dis = window.location.href.split("=")[1];
+	$("#special_discount").val(dis);
+	
+	function preloadImage(img_src) {
+		(new Image).src = img_src;
+	}
+	$("#side_opts").css("height",$( window ).height() - 1);
+
+	$("#img_div").css("height",$( window ).height() - 85);
+
+	$(".single_row").hide();
+
+	if(QueryString.door == '1') {
+		$("#single_double").show();
+                $(".metal_door").hide();
+                $(".metalb_door").hide();
+                $(".storef_door").hide();
+				top_height = 400;
+				$("#choose_door_input").val('Door, Frame & Hardware Package Instant Online Quote');
+        }
+       else if(QueryString.door == '2') {
+		$("#single_double").show();
+                $(".metalb_door").hide();
+                $(".wood_door").hide();
+                $(".storef_door").hide();
+				top_height = 400;
+				$("#choose_door_input").val('Door, Frame & Hardware Package Instant Online Quote');
+        }
+        else if(QueryString.door == '3') {
+		$("#single_double").show();
+                $(".metal_door").hide();
+                $(".wood_door").hide();
+                $(".storef_door").hide();
+				top_height = 400;
+				$("#choose_door_input").val('Door, Frame & Hardware Package Instant Online Quote');
+        }
+        else if(QueryString.door == '4') {
+				$("#door_handing").show();
+                $(".wood_door").hide();
+                $(".storef_door").hide();
+				top_height = 10;
+				$("#choose_door_input").val('Frame Only');
+        }
+       else if(QueryString.upload == '1'){
+		$("#upload_plans").show();
+        }else{
+		$(".single_row:first").show();
+        }
+
+	$('html,body').animate({
+          scrollTop: 20
+    }, 500);
+
+	$("img[data-original]").each(function(index, element) {
+		preloadImage($(this).data("original"));
+	});
+	//$("#shipping_additional").show();
+});
+
+$(window).scroll(function(){
+	top_scroll = (window.scrollY || window.pageYOffset);
+	if(top_scroll > top_height) {
+		$("#img_div").addClass("side_fix");
+		$("#side_opts").css("height",$( window ).height());
+		$("#img_div").css("height",$( window ).height() - 85);
+		$("#img_div").fadeIn();
+	} else {
+		$("#img_div").fadeOut();
+	}
+
+	if(top_scroll > 90) {
+		$("#img_div").addClass("side_fix");
+		ofst = $("#side_opts").offset();
+		$("#img_div").css("left",  $("#side_opts").width() + ofst.left + 30 );
+	}/* else {
+		$("#img_div").removeClass("side_fix");
+		$("#img_div").css("left",  "" );
+	}*/
+});
+
+} ;
+
+
+$( window ).resize(function() {
+	top_scroll = (window.scrollY || window.pageYOffset);
+	if(top_scroll > 90) {
+		$("#img_div").addClass("side_fix");
+		ofst = $("#side_opts").offset();
+		$("#img_div").css("left",  $("#side_opts").width() + ofst.left + 30 );
+	}
+	$("#side_opts").css("height",$( window ).height());
+
+	$("#img_div").css("height",$( window ).height() - 85);
+
+});
+
+var crnt_prnt,crnt_input,  doorHand = "Left", back_optz = [], page_count=0, once_scroll=false;
+
+var sideView = "Back View";
+
+var doorView = {
+
+	view : 'back', // Outside or Inside
+
+	type : 'metal', //metal or wood
+
+	sides : 'single', // single or double
+
+	welded : 'simple', //welded or simple
+
+	wired : 'simple', // Wired or simple
+
+	color : 'grey', // grey or brown
+
+	handing: 'left',
+
+	framesize: 'normal',
+
+	preview_hand : 'handing-2'
+};
+
+
+
+var hardware = {
+
+	closer : false,
+
+	doorstop: false,
+
+	pushplate: false,
+
+	pullplate: false,
+
+	deadbolt : false,
+
+	handing : true,
+
+	handingBack: false,
+
+	threshold: false,
+
+	outsideHandle : false,
+
+	doorstrike : false
+};
+
+
+
+jQuery(document).ready(function($) {
+
+	var buildingModal = document.getElementById('metalBuildingModal');
+	var buildingSpan = document.getElementsByClassName("buildingClose")[0];
+
+	$("button").click(function(e) {
+
+		e.preventDefault();
+
+	});
+
+	$(".buildingClose").click(function(e) {
+
+		buildingModal.style.display = "none";
+
+	});
+
+	// $("#disable_me").click(function(e) {
+	// 	console.log("In redirection..");
+	// 	setTimeout(function(){
+	// 		// alert("Hello");
+	// 		window.location.href = "https://www.cdfdistributors.com/thankyou/";
+	// 	}, 5000);
+
+	// });
+
+	if(QueryString.upload == '1') {
+		crnt_prnt = $("#upload_plans");
+		$(".fix_bottom").show();
+	} else {
+		crnt_prnt =  $(".single_row:first");
+	}
+
+	$(".single_row").on("click", ".btnz", function(e) {
+
+		if($(this).hasClass("no-selection"))
+			return;
+
+		btn_group = $(this).attr("btn-group");
+		parentz = $(this).parents().eq(3);
+		img_div = $(".item_image",parentz);
+		crnt_prnt =  parentz;
+		if($(this).hasClass("data-toggle")) {
+			$(".other-" + $(this).data("other"),parentz).toggleClass("other-data");
+			return;
+		}
+
+
+
+		if((($(parentz).attr("id") == 'harware_selection78' && $.trim($(this).ignore("small").text()) == 'Push / Pull Door') || ($(parentz).attr("id") == 'harware_selection3' && ($.trim($(this).ignore("small").text()) == "Push / Pull Plates" || $.trim($(this).ignore("small").text()) == "Push / Pull Plates With Deadbolt"))) && ($("#fire_rate_input").hasIn("Min") || $("#fire_rate_input").hasIn("HR"))) {
+
+			var r = confirm("Codes do not allow Push/Pull on fire rated doors.\n Your door will be quoted as non-rated.");
+			if (r == true) {
+				$("#fire_rate").find("[btn-group=fire_rate]").removeClass("btn-primary");
+				$("#fire_rate").find(".non_fire_rated").addClass("btn-primary");
+				$("#fire_rate_input").val("Non Fire Rated");
+				$("#notes_area").find("#fire_rate_note").html("Non Fire Rated");
+				$("#icons").find("img[img-group=fire-rate]").hide();
+			} else {
+				return;
+			}
+		}
+
+
+		if($(parentz).hasClass("multiselect")) {
+
+
+
+			multiSelectOpt($(parentz).attr("id"), $(this));
+
+			return true;
+
+		}
+
+		if(btn_group != '') {
+
+			$("[btn-group="+btn_group+"]").removeClass("btn-primary");
+
+			$("[btn-group="+btn_group+"]").find(".m_selection").remove();
+
+		}
+
+
+
+		$(this).addClass("btn-primary");
+
+
+
+		if($(this).attr("img-group") != '') {
+
+			$("img[img-group="+$(this).attr("img-group")+"]").hide(600);
+
+			if($(this).attr("data-image") != '') {
+
+				if($.trim($("#choose_door_input").val()).indexOf("Package") > -1 && $(parentz).attr("id") == 'single_double' ) {
+
+
+
+				} else {
+
+					$("#"+$(this).attr("data-image")).fadeIn(600);
+
+				}
+
+			}
+
+		}
+
+		valuez = $.trim($(this).ignore("small").text());
+		if($(this).data("subhead"))
+			valuez += $.trim($("small",$(this)).text());
+		$("#" + $(parentz).attr("id") + "_input").val(valuez);
+
+		if($(this).data("xinput"))
+			$("#" + $(this).data("xinput")).val(valuez);
+
+		if($(this).hasClass("no_move")) {
+			$(".fix_bottom").show();
+			return true;
+		}
+
+
+		/**********************************************************/
+		/**********************************************************/
+		/********************** Layers ****************************/
+		/**********************************************************/
+		/**********************************************************/
+		crnt_input = $("#" + $(parentz).attr("id") + "_input");
+		/*if($(parentz).attr("id") == "choose_door") {
+			if (crnt_input.hasIn("Single") || crnt_input.hasIn("Double")) {
+				$("#single_double_input").val(crnt_input.val());
+			}
+		}*/
+
+
+
+
+
+			if($("#door_handing_input").hasIn("Right"))
+				doorView.handing = 'right';
+			else
+				doorView.handing = 'left';
+
+			/*if($("#door_handing_input").hasIn("Exit Device")) {
+				if($("#door_handing_input").hasIn("Right Hand Outswing"))
+					doorView.handing = 'right';
+				else
+					doorView.handing = 'left';
+			}*/
+
+
+
+			if(sideView == "Front View")
+
+				doorView.view = "front";
+
+			else
+
+				doorView.view = "back";
+
+
+
+			if(doorView.view == "back")
+
+				handler = getOpposite(doorView.handing);
+
+			else
+
+				handler = doorView.handing;
+
+
+			if($("#harware_selection293_input").hasIn("Mortise"))
+				handler = handler + "mortise";
+
+			if($.trim($("#single_double_input").val()).indexOf("Wood") > -1)
+
+				doorView.type = 'wood';
+
+			else
+
+				doorView.type = 'metal';
+
+
+
+			if($.trim($("#single_double_input").val()).indexOf("Double") > -1)
+
+				doorView.sides = 'double';
+
+			else
+
+				doorView.sides = 'single';
+
+
+
+			if($.trim($("#frame_type_input").val()).indexOf("Not Built") > -1 || $("#finish_type_input").hasIn("Bronze"))
+
+				doorView.welded = 'welded';
+
+			else
+
+				doorView.welded = 'simple';
+
+
+
+			if($("#fire_rate_input").hasIn("Min") || $("#fire_rate_input").hasIn("HR") || $("#finish_type_input").hasIn("Bronze"))
+
+				doorView.wired = 'wired';
+
+			else
+
+				doorView.wired = 'simple';
+
+
+			if($("#single_double_input").hasIn("Building"))
+
+				doorView.color = 'bronze';
+
+			else if(doorView.type == 'metal')
+
+				doorView.color = 'grey';
+
+			else
+
+				doorView.color = 'brown';
+
+		  if($(parentz).attr("id") == "block_wall_const") {
+			  if($(this).data("size")=="fourinch")
+					doorView.framesize = 'fourinch';
+			  else
+					doorView.framesize = 'normal';
+		  }
+
+
+			switch($(parentz).attr("id")) {
+
+				case "choose_door" :
+					//alert($("#choose_door_input").hasIn("Building"));
+
+					if(valuez.indexOf("Wood") > -1) {
+						doorView.type = 'wood';
+						changeLayer("gradient", doorParts.colors[doorView.sides][doorView.type]);
+					}
+					if($("#choose_door_input").hasIn("Building")) {
+						buildingModal.style.display = "block";
+						exit();
+						doorView.framesize = 'development';
+						door_color = 'bronze';
+						changeLayer("gradient", doorParts.colors[doorView.sides][door_color]);
+						changeLayer("threshold", doorParts.hardware.threshold[doorView.sides][doorView.view]);
+						hardware.threshold = true;
+						changeLayer("weather", doorParts.hardware.weather[doorView.sides]);
+					}
+
+					changeLayer("frame", doorParts.frames[doorView.sides][doorView.framesize][doorView.welded][doorView.view]);
+
+					$("#img_div").fadeIn(600,'',function() {$("#img_div").css("width",$("#img_div").width());
+					$("#img_div").css("height",$( window ).height() - 85);
+					dmg_height = $("#door_area img").first().height();
+					} );
+
+					break;
+				case "single_double" :
+
+					if($.trim($(this).text()).indexOf("No Frame") > 1){
+						changeLayer("frame", "trans.png");
+					}
+					else{
+						if($.trim($(this).text()).indexOf("Building") > 1){
+							doorView.welded = 'welded';
+							doorView.framesize = 'development';
+						}
+						changeLayer("frame", doorParts.frames[doorView.sides][doorView.framesize][doorView.welded][doorView.view]);
+					}
+					door_color = doorView.type;
+					if($.trim($(this).text()).indexOf("Building") > 1) {
+						door_color = 'bronze';
+						changeLayer("threshold", doorParts.hardware.threshold[doorView.sides][doorView.view]);
+						hardware.threshold = true;
+						changeLayer("weather", doorParts.hardware.weather[doorView.sides]);
+					}
+
+
+					changeLayer("gradient", doorParts.colors[doorView.sides][door_color]);
+
+					changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+
+					changeLayer("hinges", doorParts.hardware.hinges[doorView.sides][getOpposite(handler)]);
+
+					if($(this).data("sfimg"))
+						$("#sfmain_layer").attr("src",$(this).data("sfimg"));
+
+					if($(this).data("mbimg"))
+						$("#mbmain_layer").attr("src",$(this).data("mbimg"));
+
+					setTimeout(function() {
+						$("#notes_a").width($("#img_div").width());
+						$("#notes_a").jScrollPane({ verticalGutter : 0});
+						once_scroll=true;
+					} , 1000);
+
+					break;
+
+
+
+				case "harware_selection293" :
+					if($("#harware_selection293_input").hasIn("Exit Device")){
+						hardware.closer = true;
+					}
+					changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+
+				case "door_handing" :
+
+					if($("#choose_door_input").val() != 'Frame Only') {
+					changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+
+					changeLayer("hinges", doorParts.hardware.hinges[doorView.sides][handler]);
+					//var crn_ihand = $(this).data("ihanding");
+					//doorView.preview_hand = crn_ihand;
+					////var paire = getPair(crn_ihand);
+					//$("#door_additional .col").hide();
+					///$("#door_additional").find("div.col").each(function() {
+					//	if(/* $("div.btn",this).data("handing") == paire || */ $("div.btn",this).data("handing") == crn_ihand)
+					//		$(this).show();
+					//	if($("div.btn",this).data("handing") == crn_ihand) {
+					//		$(this).find("input.qty_main_input").val("1");
+					//	}
+					//	});
+					if($("#single_double_input").hasIn("Single") && $("#door_handing_input").hasIn("Exit Device")) {
+						$(".hardware_pkg").hide();
+						$(".hardware_pkg.rim_exit").show();
+						input_val = "RIM Exit Device";
+					} else if($("#single_double_input").hasIn("Single") ){
+						$(".hardware_pkg").hide();
+						$(".hardware_pkg.lever_set").show();
+						$(".hardware_pkg.push_pull").show();
+						input_val = "Leverset, Closer & Hinges";
+					} else if($("#single_double_input").hasIn("Double") && $("#door_handing_input").hasIn("Vertical")) {
+						$(".hardware_pkg").hide();
+						$(".hardware_pkg.vertical_rod").show();
+						input_val = "Vertical Rod Exit Device";
+					} else if($("#single_double_input").hasIn("Double") && ( $("#door_handing_input").hasIn("Exit Device"))) {
+
+						$(".hardware_pkg").hide();
+						$(".hardware_pkg.rim_exit").show();
+						$(".deadbolt_opt").hide();
+						input_val = "RIM Exit Device";
+					} else if($("#single_double_input").hasIn("Double") && $("#door_handing_input").hasIn("Mullion")) {
+						$(".hardware_pkg").hide();
+						$(".hardware_pkg.rim_exit_mullion").show();
+						input_val = "RIM Exit Device - Mullion";
+					} else if(($("#single_double_input").hasIn("Double") && $("#door_handing_input").hasIn("Push"))) {
+						$(".hardware_pkg").hide();
+						$(".hardware_pkg.push_pull").show();
+						input_val = "Push & Pull Plates";
+					} else if($("#single_double_input").hasIn("Double") ) {
+						$(".hardware_pkg").hide();
+						$(".hardware_pkg.lever_set").show();
+						input_val = "Leverset, Closer & Hinges";
+					}
+
+					if($("#harware_selection293_input").val() == "Push / Pull"){
+						input_val = "Push & Pull Plates";
+					}
+
+					if(hardware.closer){
+						hand_input = $("#door_handing_input").val().split('-').slice(0);
+						if(hand_input[0] == "9" || hand_input[0] == "10"){
+							changeLayer("closer", doorParts.hardware.closer[doorView.sides]['both']);						
+						}
+						else if(hand_input[0] == "5" || hand_input[0] == "6" || hand_input[0] == "7" || hand_input[0] == "8" || hand_input[0] == "7E" || hand_input[0] == "8E"){							
+							changeLayer("closer", doorParts.hardware.closer[doorView.sides][getOpposite(handler)]);
+						}
+						hardware.closer = true;
+					}
+
+					if($("#single_double_input").hasIn("Single") && $("#door_handing_input").hasIn("Reverse")){
+						console.log("Before Handler", handler);
+						handler = getOpposite(handler);
+						console.log("After Handler", handler);
+						hardware.handing = false;
+					}
+					
+					if($("#harware_selection3_input").hasIn("Deadbolt")){
+						lock_key = handler+"upper";
+						// changeLayer("deadbolt", doorParts.hardware.lock[doorView.sides][doorView.view][lock_key]);
+						changeLayer("deadbolt", doorParts.hardware.lock[doorView.sides][doorView.view][handler]);
+					}
+
+					if($("#harware_selection3_input").hasIn("Closer")){
+						changeLayer("closer", doorParts.hardware.closer[doorView.sides][getOpposite(handler)]);
+						hardware.closer = true;
+					}	
+
+					if( input_val == "Push & Pull Plates") {
+
+						changeLayer("pushplate", doorParts.hardware.pushplate[doorView.sides][handler]);
+
+						hardware.pushplate = true;
+
+						changeLayer("pullplate", doorParts.hardware.pullplate[doorView.sides][handler]);
+
+						hardware.pullplate = true;
+
+						changeLayer("handing", "trans.png");
+						if(doorView.sides == 'double'){
+							changeLayer("closer", doorParts.hardware.closer[doorView.sides]['both']);
+						}
+						else{
+							changeLayer("closer", doorParts.hardware.closer[doorView.sides][getOpposite(handler)]);
+						}
+						
+						hardware.closer = true;
+
+						if($(this).data("bolt") == "on" || $("#harware_selection3_input").hasIn("Deadbolt")) {
+							lock_key = handler+"upper";
+							changeLayer("deadbolt", doorParts.hardware.lock[doorView.sides][doorView.view][lock_key]);
+
+							hardware.deadbolt = true;
+						} else {
+							changeLayer("deadbolt", "trans.png");
+
+							hardware.deadbolt = false;
+						}
+					} else {
+
+						changeLayer("pushplate", "trans.png");
+
+						changeLayer("pullplate", "trans.png");
+
+						hardware.pushplate = false;
+
+						hardware.pullplate = false;
+
+					}
+
+					// if($("#single_double_input").hasIn("Single") && $("#door_handing_input").hasIn("Reverse"))
+					// 	handler = getOpposite(handler);
+
+
+					if( input_val == "Leverset, Closer & Hinges") {
+
+
+					} else {
+
+
+
+					}
+
+
+
+					if( input_val == "Leverset, Closer, Deadbolt & Hinges") {
+
+						changeLayer("closer", doorParts.hardware.closer[doorView.sides][getOpposite(handler)]);
+
+						changeLayer("deadbolt", doorParts.hardware.lock[doorView.sides][doorView.view][handler]);
+
+						hardware.closer = true;
+
+						hardware.deadbolt = true;
+
+					}
+
+					// if(input_val != "Leverset, Closer, Deadbolt & Hinges" && input_val != "Push & Pull Plates"){
+
+					// 	changeLayer("deadbolt", "trans.png");
+
+					// 	hardware.deadbolt = false;
+
+					// }
+
+
+
+					if( input_val == "RIM Exit Device") {
+
+						if($("#door_handing_input").hasIn("7E") || $("#door_handing_input").hasIn("3E")){
+							handler = "left";
+						}
+						else if($("#door_handing_input").hasIn("8E") || $("#door_handing_input").hasIn("4E")){
+							handler = "right";
+						} 
+						changeLayer("pushbar", doorParts.hardware.pushbar[doorView.sides][handler]);
+
+						if(doorView.view == "front") {
+							changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+							$("#pushbar_layer").hide();
+						} else {
+								changeLayer("handing", "trans.png");
+						}
+
+						hardware.handing = false;
+
+						hardware.pushbar = true;
+
+						changeLayer("closer", doorParts.hardware.closer[doorView.sides][handler]);
+		
+						hardware.closer = true;
+
+						hardware.outsideHandle = true;
+						if(doorView.sides == "double")
+							changeLayer("doorstrike", doorParts.hardware.doorstrike[handler]);
+
+
+					} else if( input_val == "RIM Exit Device - Mullion") {
+
+						changeLayer("pushbar", doorParts.hardware.mullion[doorView.sides]);
+
+						if(doorView.view == "front") {
+							changeLayer("handing", doorParts.hardware.handle.double.both);
+							$("#pushbar_layer").hide();
+						} else {
+								changeLayer("handing", "trans.png");
+						}
+
+						hardware.handing = false;
+
+						hardware.pushbar = true;
+
+						hardware.outsideHandle = true;
+
+					} else if( input_val == "Vertical Rod Exit Device") {
+
+						changeLayer("pushbar", doorParts.hardware.vrod[doorView.sides]);
+
+						if(doorView.view == "front") {
+							changeLayer("handing", doorParts.hardware.handle.double.both);
+							$("#pushbar_layer").hide();
+						} else {
+								changeLayer("handing", "trans.png");
+						}
+
+						hardware.handing = false;
+
+						hardware.pushbar = true;
+
+						hardware.outsideHandle = true;
+
+					} else {
+
+						changeLayer("pushbar", "trans.png");
+
+						hardware.pushbar = false;
+
+					}
+
+					if( !(input_val == "RIM Exit Device" && doorView.sides == "double")) {
+						changeLayer("doorstrike", "trans.png");
+					}
+
+
+
+					if(input_val !=  "RIM Exit Device" && input_val !=  "RIM Exit Device - Mullion" && input_val != "Vertical Rod Exit Device" && input_val != "Push & Pull Plates") {
+
+						changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+
+						hardware.handing = true;
+
+					}
+
+					}
+					break;
+
+				case "cutout_kit" :
+
+					win_size =  $("#cutout_kit_input").val();
+
+					if($("#cutout_kit_input").hasIn("No")) {
+						changeLayer("window","trans.png");
+						break;
+					}
+
+					wsize = getWLSize(win_size);
+
+					if(doorView.sides == 'single') {
+
+						if(wsize == "s6x27"){
+							if($("#door_handing_input").hasIn("3E")){
+								handler = "right";
+							}
+							else if($("#door_handing_input").hasIn("4E")){
+								handler = "left";
+							}
+							else if($("#single_double_input").hasIn("Single") && $("#door_handing_input").hasIn("Reverse")){
+								handler = getOpposite(handler);
+							}
+							changeLayer("window", doorParts.windows[doorView.sides][doorView.color][doorView.wired][wsize][handler]);
+						}
+						else{
+							changeLayer("window", doorParts.windows[doorView.sides][doorView.color][doorView.wired][wsize]);
+						}
+
+					} else {
+
+						changeLayer("window", doorParts.windows[doorView.sides][doorView.color][doorView.wired]['left'][wsize]);
+
+						changeLayer("windowr", doorParts.windows[doorView.sides][doorView.color][doorView.wired]['right'][wsize]);
+
+					}
+
+					break;
+
+				case "louver_kit" :
+
+					win_size =  $("#louver_kit_input").val();
+
+					if($("#louver_kit_input").hasIn("No")) {
+						changeLayer("louver","trans.png");
+						break;
+					}
+
+					wsize = getWLSize(win_size);
+
+					if(doorView.sides == 'single') {
+
+						changeLayer("louver", doorParts.louvers[doorView.sides][doorView.color][wsize]);
+
+					} else {
+
+						changeLayer("louver", doorParts.louvers[doorView.sides][doorView.color]['left'][wsize]);
+
+						changeLayer("louverr", doorParts.louvers[doorView.sides][doorView.color]['right'][wsize]);
+
+					}
+
+					break;
+
+				case "finish_type" :
+
+
+					door_color =  $("#finish_type .btn.btn-primary").data("code");
+					changeLayer("mbbox", doorParts.frames[doorView.sides]['box'][door_color]);
+					if( $("#finish_type .btn.btn-primary").data("build")) {
+						/* Window Color Changing */
+						win_size =  $("#cutout_kit_input").val();
+						wsize = getWLSize(win_size);
+						if(doorView.sides == 'single') {
+							if(wsize == "s6x27")
+								changeLayer("window", doorParts.windows[doorView.sides][doorView.color][doorView.wired][wsize][handler]);
+							else
+								changeLayer("window", doorParts.windows[doorView.sides][doorView.color][doorView.wired][wsize]);
+
+						} else {
+
+							changeLayer("window", doorParts.windows[doorView.sides][doorView.color][doorView.wired]['left'][wsize]);
+
+							changeLayer("windowr", doorParts.windows[doorView.sides][doorView.color][doorView.wired]['right'][wsize]);
+
+						}
+						changeLayer("frame", doorParts.frames[doorView.sides][doorView.framesize][doorView.welded][doorView.view]);
+					}
+
+					changeLayer("gradient", doorParts.colors[doorView.sides][door_color]);
+
+					break;
+
+				case "frame_color" :
+					pre_finished_frame_color =  $(this).data("code");
+					changeLayer("frame", doorParts.frames[doorView.sides]['pre-finish']['color'][pre_finished_frame_color]);
+
+					break;
+
+				case "block_wall_const" :
+					if($("#choose_door_input").val() == 'Frame Only') {
+						if($("#door_handing_input").val() == "9- Double Door"){
+							doorView.sides = "double";
+						}
+						else{
+							doorView.sides = "single";
+						}
+					}
+					changeLayer("frame", doorParts.frames[doorView.sides][doorView.framesize][doorView.welded][doorView.view]);
+
+					break;
+
+				case "harware_selection3" :
+
+
+
+					input_val = $("#harware_selection3_input").val();
+
+
+
+					if( $("#harware_selection3_input").hasIn("Push / Pull Plates")) {
+
+						changeLayer("pushplate", doorParts.hardware.pushplate[doorView.sides][handler]);
+
+						hardware.pushplate = true;
+
+						changeLayer("pullplate", doorParts.hardware.pullplate[doorView.sides][handler]);
+
+						hardware.pullplate = true;
+
+						if(doorView.sides == "double"){
+							changeLayer("closer", doorParts.hardware.closer[doorView.sides]['both']);
+						}
+						else{
+							changeLayer("closer", doorParts.hardware.closer[doorView.sides][getOpposite(handler)]);
+						}
+
+						hardware.closer = true;
+
+						changeLayer("handing", "trans.png");
+
+						hardware.handing = false;
+
+						if($(this).data("bolt") == "on") {
+							lock_key = handler+"upper";
+							changeLayer("deadbolt", doorParts.hardware.lock[doorView.sides][doorView.view][lock_key]);
+
+							hardware.deadbolt = true;
+							hardware.deadboltpos = "upper";
+						} else {
+							changeLayer("deadbolt", "trans.png");
+
+							hardware.deadbolt = false;
+							hardware.deadboltpos = false;
+						}
+					} else {
+
+						changeLayer("pushplate", "trans.png");
+
+						changeLayer("pullplate", "trans.png");
+
+						hardware.pushplate = false;
+
+						hardware.pullplate = false;
+
+						hardware.deadboltpos = false;
+
+					}
+
+
+
+					if( input_val == "Leverset") {
+
+						changeLayer("closer", "trans.png");
+
+						hardware.closer = false;
+
+					}
+
+					if( input_val == "Leverset & Closer") {
+
+						changeLayer("closer", doorParts.hardware.closer[doorView.sides][getOpposite(handler)]);
+
+						hardware.closer = true;
+
+					} else {
+
+
+
+					}
+
+					if( input_val == "Leverset & Deadbolt") {
+
+						changeLayer("deadbolt", doorParts.hardware.lock[doorView.sides][doorView.view][handler]);
+
+						hardware.deadbolt = true;
+						changeLayer("closer", "trans.png");
+
+						hardware.closer = false;
+
+
+					} else {
+
+
+
+					}
+
+
+					if( input_val == "Leverset, Closer & Deadbolt") {
+
+						changeLayer("closer", doorParts.hardware.closer[doorView.sides][getOpposite(handler)]);
+
+						changeLayer("deadbolt", doorParts.hardware.lock[doorView.sides][doorView.view][handler]);
+
+						hardware.closer = true;
+
+						hardware.deadbolt = true;
+
+					}
+
+					if(input_val != "Leverset, Closer & Deadbolt" && input_val != "Leverset & Deadbolt" && !$("#harware_selection3_input").hasIn("Push / Pull Plates")){
+
+						changeLayer("deadbolt", "trans.png");
+
+						hardware.deadbolt = false;
+
+					}
+
+
+					if( $("#harware_selection3_input").hasIn("RIM Exit Device") && !$("#harware_selection3_input").hasIn("Mullion")) {
+
+						if($("#door_handing_input").hasIn("7E") || $("#door_handing_input").hasIn("3E")){
+							handler = "left";
+						}
+						else if($("#door_handing_input").hasIn("8E") || $("#door_handing_input").hasIn("4E")){
+							handler = "right";
+						} 
+
+						changeLayer("pushbar", doorParts.hardware.pushbar[doorView.sides][handler]);
+
+						changeLayer("closer", doorParts.hardware.closer[doorView.sides][handler]);
+
+						hardware.closer = true;
+
+						hardware.handing = false;
+
+						hardware.pushbar = true;
+
+						if ($(this).data("handle") == "outside") {
+							hardware.outsideHandle = true;
+							if(doorView.view == "front") {
+								if(doorView.sides == "single")
+									changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+								else
+									changeLayer("handing", doorParts.hardware.handle.double.both);
+
+
+								$("#pushbar_layer").hide();
+							} else {
+								changeLayer("handing", "trans.png");
+							}
+						} else {
+							hardware.outsideHandle = false;
+							changeLayer("handing", "trans.png");
+						}
+
+					} else if( $("#harware_selection3_input").hasIn("RIM Exit Device - Mullion")) {
+
+						changeLayer("pushbar", doorParts.hardware.mullion[doorView.sides]);
+						if ($(this).data("handle") == "outside") {
+							hardware.outsideHandle = true;
+							if(doorView.view == "front") {
+								if(doorView.sides == "single")
+									changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+								else
+									changeLayer("handing", doorParts.hardware.handle.double.both);
+
+								$("#pushbar_layer").hide();
+							} else {
+								changeLayer("handing", "trans.png");
+							}
+						} else {
+							hardware.outsideHandle = false;
+							changeLayer("handing", "trans.png");
+						}
+
+						changeLayer("closer", doorParts.hardware.closer[doorView.sides]['both']);
+
+						hardware.closer = true;
+
+						hardware.handing = false;
+
+						hardware.pushbar = true;
+
+					} else if(  $("#harware_selection3_input").hasIn("Vertical Rod")) {
+
+						changeLayer("pushbar", doorParts.hardware.vrod[doorView.sides]);
+
+						changeLayer("closer", doorParts.hardware.closer[doorView.sides]['both']);
+
+						hardware.closer = true;
+
+						hardware.handing = false;
+
+						hardware.pushbar = true;
+
+						if ($(this).data("handle") == "outside") {
+							hardware.outsideHandle = true;
+							if(doorView.view == "front") {
+								if(doorView.sides == "single")
+									changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+								else
+									changeLayer("handing", doorParts.hardware.handle.double.both);
+
+								$("#pushbar_layer").hide();
+							} else {
+								changeLayer("handing", "trans.png");
+							}
+						} else {
+							hardware.outsideHandle = false;
+							changeLayer("handing", "trans.png");
+						}
+					} else {
+
+						changeLayer("pushbar", "trans.png");
+
+						hardware.pushbar = false;
+
+						hardware.outsideHandle = false;
+
+					}
+
+
+
+					if( ( $("#harware_selection3_input").hasIn("RIM Exit Device") && !$("#harware_selection3_input").hasIn("Mullion") ) && doorView.sides == "double") {
+						changeLayer("doorstrike", doorParts.hardware.doorstrike[handler]);
+					} else {
+						changeLayer("doorstrike", "trans.png");
+					}
+
+					if(hardware.deadbolt)
+						$(".key-alike").show();
+					else
+						$(".key-alike").hide();
+
+
+
+					if(!$("#harware_selection3_input").hasIn("RIM Exit Device") && !$("#harware_selection3_input").hasIn("RIM Exit Device (Exit Only)") && !$("#harware_selection3_input").hasIn("RIM Exit Device - Mullion") && !$("#harware_selection3_input").hasIn("Vertical Rod") && !$("#harware_selection3_input").hasIn("Push / Pull Plates")) {
+
+						changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+
+						hardware.handing = true;
+
+					}
+
+
+
+
+					break;
+
+
+				case "harware_selection7" :
+					this_val = $("#harware_selection7_input").val();
+					if(this_val == "No Weatherization Kit") {
+						changeLayer("weahter", "trans.png");
+						changeLayer("threshold", "trans.png");
+						hardware.threshold = false;
+					} else {
+						changeLayer("weather", doorParts.hardware.weather[doorView.sides]);
+						changeLayer("threshold", doorParts.hardware.threshold[doorView.sides][doorView.view]);
+						hardware.threshold = true;
+					}
+
+					break;
+
+				case "harware_selection78" :
+					this_val = $("#harware_selection78_input");
+					//alert($(this_val).val() +" - "+ doorView.sides);
+					if(doorView.sides == "single") {
+						if($(this_val).hasIn('Door With Lever')) {
+							$("#simple_leverset").click();
+						} else if($(this_val).hasIn('Push / Pull Door')) {
+							$("#push_pull_simple").click();
+						} else if($(this_val).hasIn('Exit Bar Door')) {
+							$("#rim_exit_exterior").click();
+						}
+					} else {
+						if($(this_val).hasIn('Door With Lever')) {
+							$("#simple_leverset").click();
+						} else if($(this_val).hasIn('Push / Pull Door')) {
+							$("#push_pull_simple").click();
+						} else if($(this_val).hasIn('One Side Exit Bar Door')) {
+							$("#rim_exit_exterior").click();
+						} else if($(this_val).hasIn('Double Exit Door With Mullion')) {
+							$("#mullion_simple").click();
+						} else if($(this_val).hasIn('Double Vertical Rod Exit Door')) {
+							$("#svr_simple").click();
+						}
+					}
+
+
+					break;
+
+				default :
+
+			}
+
+
+
+		/**********************************************************/
+
+		/**********************************************************/
+
+		/**********************************************************/
+
+
+
+		if(
+
+		$("#door_height_input").val()=="8' 0'' Door (96 inch)" ||
+		($("#single_double_input").hasIn("Double") && $("#single_double_input").hasIn("Wood")  && ($("#door_width_input").val()!="6' 0'' Door (72 inch)" || $("#door_width_input").val()!="5' 0'' Door (60 inch)") && $.trim($("#fire_rate_input").val()) != "" && !$("#fire_rate_input").hasIn("Non")) ||
+		($("#hinge_loc_input").val() != 'Steelcraft' && $("#hinge_loc_input").val() != "")  ||
+
+		//($.trim($("#single_double_input").val()).indexOf("Wood") > -1 && $.trim($("#fire_rate_input").val()) != "Non Fire Rated" &&  $.trim($("#fire_rate_input").val()) != "20 Min Fire Rated" && $.trim($("#fire_rate_input").val()) != "") ||
+
+		($.trim($("#finish_type_input").val()) != "Unfinished Birch Door" /*&& $.trim($("#finish_type_input").val()) != "Golden Hickory" && $.trim($("#finish_type_input").val()) != "Mahogany" && $.trim($("#finish_type_input").val()) != "Cordovan"*/ && $.trim($("#finish_type_input").val()) != "Clear Pre-finished Birch" && $.trim($("#finish_type_input").val()) != "") ) {
+
+			$("#special_order").fadeIn();
+			 $(".shipping_speed").hide();
+
+			$("#instock_order").hide();
+
+		} else {
+
+			$("#instock_order").fadeIn();
+
+			$(".shipping_speed").show();
+			$("#special_order").hide();
+
+		}
+
+
+
+
+
+
+
+		/**if($(this).hasClass("no_move"))
+
+			return true;
+*/
+
+
+		move_forward();
+
+	});
+
+
+
+	function getWLSize(size){
+
+		if(size == '12"x12"')
+
+			return 's12x12';
+
+		if(size == '16"x16"')
+
+			return 's12x12';
+
+		else if(size == '12"x18"')
+
+			return 's12x18';
+
+		else if(size == '12"x24"')
+
+			return 's12x24';
+
+		else if(size == '18"x24"' || size == '24"x18"')
+
+			return 's18x24';
+
+		else if(size == '24"x24"')
+
+			return 's24x24';
+
+		else if(size == '1/2 Glass')
+
+			return 's24x30';
+
+		else if(size == 'Full Glass')
+
+			return 's60x24';
+
+		else if(size == '6"x27"')
+
+			return 's6x27';
+
+		else if(size == '24"x30"')
+
+			return 's24x30';
+
+		else if(size == 'Full louver')
+
+			return 's60x24';
+
+		else if(size == '6"x27"')
+
+			return 's6x27';
+
+		else if(size == '6"x30"')
+
+			return 's6x27';
+
+	}
+
+
+
+	function changeLayer(id,val) {
+
+		$("#"+id+"_layer").attr("src","images/"+val);
+	}
+
+
+
+	function multiSelectOpt(crnt_idz, crnti) {
+
+		crnto = $("#" + crnt_idz);
+
+		valuez = $("#" + crnt_idz + "_input").val();
+
+		var this_val = $.trim(crnti.ignore("small").text());
+
+		if(crnti.hasClass('btn-primary')) {
+
+			$(".m_selection", $(crnti)).remove();
+
+			this_val = $.trim(crnti.ignore("small").text());
+
+			crnti.removeClass('btn-primary');
+
+			$("input[type=checkbox]", crnti).attr('checked', false);
+
+			if(valuez != '')
+
+				val_arr = valuez.split(",*,");
+
+			else
+
+				val_arr = [];
+
+			val_arr = $.grep(val_arr, function(value) { return value != this_val; });
+
+			new_val = '';
+
+			for(i=0; i<val_arr.length; i++){
+
+					new_val += val_arr[i] ;
+
+				if(val_arr.length != i+1) {
+
+					new_val +=  ",*,";
+
+				}
+
+			}
+
+			 removeMultipleViews(this_val);
+
+		} else {
+
+			crnti.addClass("btn-primary");
+
+			$("input[type=checkbox]", crnti).attr('checked', true);
+
+			if(valuez != '')
+
+				val_arr = valuez.split(",*,");
+
+			else
+
+				val_arr = [];
+
+			val_arr.push(this_val);
+
+			new_val = '';
+
+			for(i=0; i<val_arr.length; i++){
+
+					new_val += val_arr[i] ;
+
+				if(val_arr.length != i+1) {
+
+					new_val +=  ",*,";
+
+				}
+
+			}
+			addMultipleViews(this_val);
+			if(this_val == "None") {
+				new_val = "None";
+				$(".btnz",crnto).removeClass("btn-primary");
+				crnti.addClass('btn-primary')
+			} else {
+				$(".btnz.none_opt",crnto).removeClass("btn-primary");
+			}
+		}
+
+
+			$("#" + crnt_idz + "_input").val(new_val);
+
+			if($.trim(new_val) != '') {
+				$(".btnz.cnfrm_btn",crnto).removeClass("disabled");
+				$(".btnz.cnfrm_btn",crnto).addClass("bluish");
+			} else {
+				$(".btnz.cnfrm_btn",crnto).addClass("disabled");
+				$(".btnz.cnfrm_btn",crnto).removeClass("bluish");
+			}
+			if($(".btnz.cnfrm_btn",crnto).length > 0)
+				avc = '';
+			else
+				$(".fix_bottom").show();
+	}
+
+
+
+	function addMultipleViews(valz) {
+
+		if(crnt_prnt.attr("id") == "hardware_selection9")
+			return;
+		switch(valz) {
+
+			case "Closer" :
+
+				changeLayer("closer", doorParts.hardware.closer[doorView.sides][doorView.handing]);
+
+				hardware.closer = true;
+
+				break;
+
+			case "Kick Down Door Holder" :
+				hand = $("#door_handing_input").val();
+				if(hand == "3- Left Hand Reverse" || hand == "4- Right Hand Reverse"){
+					changeLayer("doorstop", doorParts.hardware.doorstop[doorView.sides][doorView.handing]);
+				}
+				else{
+					changeLayer("doorstop", doorParts.hardware.doorstop[doorView.sides][getOpposite(doorView.handing)]);
+				}
+				
+
+				hardware.doorstop = true;
+
+				break;
+
+			case "Kick Plates" :
+
+				changeLayer("kickplates", doorParts.hardware.kickplates[doorView.sides][doorView.handing]);
+
+				hardware.kickplates = true;
+
+				break;
+
+			default:
+
+		}
+
+	}
+
+
+
+
+
+	function removeMultipleViews(valz) {
+
+			switch(valz) {
+
+			case "Closer" :
+
+				changeLayer("closer", "trans.png");
+
+				hardware.closer = false;
+
+				break;
+
+			case "Hold Open" :
+
+				changeLayer("doorstop", "trans.png");
+
+				hardware.doorstop = false;
+
+				break;
+
+			case "Kick Plates" :
+
+				changeLayer("kickplates", "trans.png");
+
+				hardware.kickplates = false;
+
+				break;
+
+			case "Kick Down Door Holder" :
+
+				changeLayer("doorstop", "trans.png");
+
+				hardware.doorstop = false;
+
+				break;
+
+			default:
+
+		}
+
+	}
+
+
+
+	$(".head_collapse").click(function(e) {
+
+        rltn = $(this).attr('rltn');
+
+		if($(this).hasClass("active")) {
+
+			$(this).removeClass("active");
+
+			$("." + rltn).hide();
+
+			$(".head_collapse",$(crnt_prnt)).show();
+
+		} else {
+
+			$(this).addClass("active");
+
+			$("." + rltn).fadeIn();
+
+			$(".head_collapse", $(crnt_prnt)).hide();
+
+			$(this).show();
+
+		}
+
+
+    });
+
+
+
+	$(".next_btn").click(function(e) {
+
+		e.preventDefault();
+
+		move_forward();
+
+		$(".fix_bottom").hide();
+
+	});
+
+
+
+	function move_forward() {
+
+		if($("#ups_states").val() == "" && crnt_prnt.attr("id") == 'shippingz') {
+				alert("Please Select State");
+				setTimeout(function() {$(".fix_bottom").show();}, 500);
+				return false;
+		} else if($("#zip_code").val() == "" && crnt_prnt.attr("id") == 'shippingz') {
+				alert("Please Enter ZIP Code");
+				setTimeout(function() {$(".fix_bottom").show();}, 500);
+				return false;
+		}
+
+		back_optz.push(crnt_prnt.attr("id"));
+		update_sidenotes(crnt_prnt.attr("id"));
+		crnt_prnt.css("height","");
+		zmew = get_next_opts(crnt_prnt.attr("id"));
+		crnt_prnt = $("#" + zmew);
+		crnt_prnt.css("min-height",$( window ).height() - 1);
+		console.log(crnt_prnt.find("input[type=hidden]").val() + " --- " + zmew);
+		if($("#know_questions_input").hasIn("No, Use Industry Standards") && zmew=="harware_selection7") {
+			zmew = get_next_opts(zmew);
+		}
+		$("#" + zmew).fadeIn("fast","",function() {
+			uniform_height("#" + zmew);
+		});
+		var eofst = $("#" + zmew).offset();
+		if(window.innerHeight-20 < $("#" + zmew).height()) {
+			$('html,body').animate(
+			{
+			  scrollTop: eofst.top+$("#" + zmew).height()
+			},
+			 1200, 'swing',
+			 function() {
+				$('html,body').animate({
+				  scrollTop: eofst.top-40
+				}, 1200);
+			});
+		} else {
+			$('html,body').animate(
+			{
+			  scrollTop: eofst.top-40
+			},
+			 1200);
+		}
+		ga('send', 'event', 'DoorOption', 'Opened', zmew);
+		/*$("#" + zmew).show('slide', {direction: 'right'}, 500, function() {
+			jsPaner = jQuery("#" + zmew).find(".jspPane");
+			var aheight = jsPaner.parent().height();
+			var bheight = jsPaner.height();
+			var cheight = bheight - aheight;
+			if(cheight > 0) {
+				jsPaner.css("top", "-"+cheight+"px");
+				jsPaner.animate({ "top": "0px" }, 2000 );
+			}
+		});
+
+
+		*/
+
+
+		if($("#" + zmew).hasClass("next_btn_show")) {
+			setTimeout(function() {$(".fix_bottom").show();}, 500);
+		}
+
+
+		if($("#" + zmew).hasClass("next_btn_hide")) {
+			setTimeout(function() {$(".fix_bottom").fadeOut();}, 600);
+		}
+
+		$("#" + zmew).find("img[data-original]").not(":hidden").each(function(index, element) {
+			$(this).attr("src", $(this).data("original"));
+			$(this).removeAttr("data-original");
+		});
+
+	}
+
+
+
+	$(".back_btn").click(function(e) {
+
+		if(back_optz.length == 0) return;
+
+
+		//crnt_prnt.hide('slide', {direction: 'right'}, 500, function() {crnt_prnt.css('position','relative'); crnt_prnt = $("#" + zmew); });
+
+		zmew = back_optz.pop();
+
+		var eofst = $("#" + zmew).offset();
+		$('html,body').animate({
+          scrollTop: eofst.top
+        }, 500);
+
+		//$("#" + zmew).show('slide', {direction: 'left'}, 500);
+
+	});
+
+
+
+
+
+	// function get_next_opts(crnt_opt) {
+	// 	if($("#door_width_input").val() == "2' 0\" Door (24 inch)" || $("#door_width_input").val() == "2'4\" Door (28 inch)"){
+	// 		$(".hd-single").hide();
+	// 	}
+	// 	crnt_input = $("#" + crnt_opt + "_input");
+
+	// 	if(crnt_opt == 'choose_door') {
+	// 		$("#img_div").addClass("side_fix");
+	// 		$("#firstpage_layer").fadeOut();
+	// 		if(crnt_input.val() == 'Door Only') {
+	// 			$(".metalb_door").hide();
+	// 			return "single_double";
+
+	// 		} else if (crnt_input.val() == 'Frame Only') {
+	// 				$(".wood_door").hide();
+	// 				$(".metal_door").show();
+	// 				$(".aframe_layer").hide();
+	// 				$(".col","#door_handing").hide();
+	// 				$(".change_frame_title","#door_handing").text("Double Door");
+	// 				$(".frame_only","#door_handing").show();
+	// 			return "door_handing";
+
+	// 		} else if (crnt_input.val() == 'Hardware Only') {
+
+	// 			return "hardware_selection9";
+
+	// 		} else if (crnt_input.hasIn("Door")) {
+	// 			if(crnt_input.hasIn("Store")) {
+	// 				$(".wood_door").hide();
+	// 				$(".metal_door").hide();
+	// 				$(".metalb_door").hide();
+	// 				$(".storef_door").show();
+
+	// 			} else if(crnt_input.hasIn("Wood")) {
+	// 				$(".wood_door").show();
+	// 				$(".metal_door").hide();
+	// 				$(".metalb_door").hide();
+	// 				$(".storef_door").hide();
+
+	// 			} else if(crnt_input.hasIn("Building")){
+	// 				$(".wood_door").hide();
+	// 				$(".metalb_door").show();
+	// 				$(".metal_door").hide();
+	// 				$(".storef_door").hide();
+	// 			} else if(crnt_input.hasIn("Metal")){
+	// 				$(".wood_door").hide();
+	// 				$(".metal_door").show();
+	// 				$(".metalb_door").hide();
+	// 				$(".storef_door").hide();
+	// 			}
+	// 			/*if($("#single_double_input").hasIn('Single')) {
+	// 				$(".single_door").show();$(".double_door").hide();
+	// 			} else {
+	// 				$(".single_door").hide();$(".double_door").show();
+	// 			}
+	// 			if($("#single_double_input").hasIn('Wood')) {
+	// 				$(".wood_door").show();$(".metal_door").hide();
+	// 			} else {
+	// 				$(".wood_door").hide();$(".metal_door").show();
+	// 			}*/
+
+
+	// 			$("#know_questions_input").val('I Know My Door Size');
+	// 			typer = doorView.type;
+	// 			if(crnt_input.hasIn("Building")) typer = 'metalb';
+	// 			lclass = ".louver_ico."+doorView.sides+"_louver_ico."+doorView.sides+"."+typer;
+	// 			$(".louver_ico").hide();
+	// 			$(lclass).show();
+
+	// 			crnt_input.val("Door, Frame & Hardware Package Instant Online Quote");
+	// 			return "single_double";
+
+	// 		} else if (crnt_input.val() ==  'Upload Construction Plan  Quotes Within 48 HRS') {
+	// 			$(".fix_bottom").show();
+	// 			return "upload_plans";
+
+	// 		}
+
+
+	// 	} else if(crnt_opt == 'single_double') {
+
+
+	// 		if($("#single_double_input").hasIn("Aluminum") || $("#single_double_input").hasIn("Bronze")) {
+	// 			$(".main_img").hide();
+	// 			$("#sfmain_layer").show();
+	// 			if($("#single_double_input").hasIn("Double")) {
+	// 				$("#sfdoor_handing_input").val("Right Hinge Swing Out Active (RHRA)");
+	// 				//return 'storef_hardware';
+	// 			}
+	// 			//return "sfdoor_handing";
+	// 		}
+
+	// 		if($("#single_double_input").hasIn("No Frame")) {
+	// 			$("#choose_door_input").val("Door Only");
+	// 			$(".metalb_door").hide();
+	// 		}
+
+	// 		if($("#single_double_input").hasIn("Single")) {
+
+	// 			$(".single_door").show();
+
+	// 			$(".double_door").hide();
+
+	// 		} else {
+
+	// 			$(".single_door").hide();
+
+	// 			$(".double_door").show();
+
+	// 		}
+
+	// 		if($("#single_double_input").hasIn("Building"))
+	// 			$(".metalab_hide", $("#door_handing")).hide();
+
+
+	// 		typer = doorView.type;
+	// 		if($("#single_double_input").hasIn("Building")) typer = 'metalb';
+	// 		lclass = ".louver_ico."+doorView.sides+"_louver_ico."+doorView.sides+"."+typer;
+	// 		$(".louver_ico").hide();
+	// 		$(lclass).show();
+	// 		$("#know_questions_input").val('I Know My Door Size');
+	// 		if(crnt_input.hasIn("Building") && $("#single_double_input").hasIn("Single")){
+	// 			$(".single_door", $("#door_width")).hide();
+	// 			$(".metalab_active", $("#door_width")).show();
+	// 			$("#door_height_input").val("7' 0\" Door (84 inch)");
+	// 		} else if(crnt_input.hasIn("Building")  && $("#single_double_input").hasIn("Double")) {
+	// 			$("#door_width_input").val("6' 0'' Door (72 inch)");
+	// 			$("#door_height_input").val("7' 0\" Door (84 inch)");
+	// 			$(".metal_door", $("#door_handing")).show();
+	// 			return "door_handing";
+	// 		} else if(crnt_input.hasIn("Metal Door")) {
+	// 			//return "door_location";
+	// 		}
+	// 		//return "door_width";
+	// 		return "harware_selection293";
+	// 	} else if(crnt_opt == 'harware_selection293') {
+	// 		if($("#harware_selection293_input").hasIn("Lever")) {
+
+	// 			if($("#single_double_input").hasIn("Single")) {
+
+	// 				$(".col", $("#door_handing")).hide();
+	// 				$(".lever_set.single_door", $("#door_handing")).show();
+
+	// 			} else {
+
+	// 				$(".col", $("#door_handing")).hide();
+	// 				$(".lever_set.double_door", $("#door_handing")).show();
+
+	// 			}
+
+	// 			$(".col", $("#harware_selection3")).hide();
+	// 			$(".lever_set", $("#harware_selection3")).show();
+
+	// 		} else if($("#harware_selection293_input").hasIn("Exit")) {
+
+	// 			if($("#single_double_input").hasIn("Single")) {
+
+	// 				$(".col", $("#door_handing")).hide();
+	// 				$(".door_mullion.single_door", $("#door_handing")).show();
+
+	// 			} else {
+
+	// 				$(".col", $("#door_handing")).hide();
+	// 				$(".door_mullion.double_door", $("#door_handing")).show();
+
+	// 			}
+
+	// 			$(".col", $("#harware_selection3")).hide();
+	// 			$(".panic_only", $("#harware_selection3")).show();
+
+	// 			return "door_handing";
+	// 		} else if($("#harware_selection293_input").hasIn("Push")) {
+
+	// 			if($("#single_double_input").hasIn("Single")) {
+
+	// 				$(".col", $("#door_handing")).hide();
+	// 				$(".lever_set.single_door", $("#door_handing")).show();
+
+	// 			} else {
+
+	// 				$(".col", $("#door_handing")).hide();
+	// 				$(".push_pull.double_door", $("#door_handing")).show();
+
+	// 			}
+
+
+	// 			$(".col", $("#harware_selection3")).hide();
+	// 			$(".push_pull", $("#harware_selection3")).show();
+	// 		} else if($("#harware_selection293_input").hasIn("Mortise")) {
+
+	// 			if($("#single_double_input").hasIn("Single")) {
+
+	// 				$(".col", $("#door_handing")).hide();
+	// 				$(".lever_set.single_door", $("#door_handing")).show();
+
+	// 			} else {
+
+	// 				$(".col", $("#door_handing")).hide();
+	// 				$(".lever_set.double_door", $("#door_handing")).show();
+
+	// 			}
+
+
+	// 			$(".col", $("#harware_selection3")).hide();
+	// 			$(".mortise_lock", $("#harware_selection3")).show();
+	// 		}
+
+
+
+	// 			return "harware_selection3";
+
+	// 	} else if(crnt_opt == 'door_location') {
+
+	// 			return "door_width";
+
+	// 	} else if(crnt_opt == 'sfdoor_handing') {
+	// 			//$(".col", $("#cutout_kit")).hide();
+	// 			//$(".storef_door", $("#cutout_kit")).show();
+
+	// 			//return "cutout_kit";
+	// 			return "storef_hardware";
+
+	// 	} else if(crnt_opt == 'know_questions') {
+
+	// 		if($("#know_questions_input").hasIn("I Don't Know")) {
+	// 			if($("#single_double_input").hasIn('Single')) {
+
+	// 				$("#door_width_input").val("3' 0\" Door (36 inch)");
+	// 			} else {
+	// 				$("#door_width_input").val("6' 0'' Door (72 inch)");
+	// 			}
+	// 			$(".instock_normal").hide();
+	// 			$("#door_height_input").val("7' 0\" Door (84 inch)");
+	// 			$("#fire_rate_input").val("Non Fire Rated");
+	// 			$("#dry_wall_const_input").val("4 7/8'' Wall Thickness Fits");
+	// 			$("#door_handing_input").val("Left Hand");
+	// 			return "cutout_kit";
+	// 		}
+
+	// 		return "door_width";
+
+	// 	} else if(crnt_opt == 'hinge_loc') {
+	// 		if ($("#choose_door_input").val() == 'Frame Only')
+	// 			return 'fire_rate';
+
+	// 		return "door_handing";
+
+
+
+	// 	} else if(crnt_opt == 'hinge_loc') {
+	// 		if ($("#choose_door_input").val() == 'Frame Only')
+	// 			return 'fire_rate';
+
+	// 		ss = getDoorHandingOpt();
+	// 		return ss;
+
+
+
+	// 	} else if(crnt_opt == 'door_width') {
+	// 		if( $("#door_width_input").val() == "4' 8'' Door" ||  $("#door_width_input").val() == "4' 0'' Door") {
+	// 			$(".door_mullion", $("#door_handing")).hide();
+	// 		}
+
+	// 		if($("#single_double_input").hasIn("Building")) {
+	// 			$(".metalab_hide").hide();
+	// 			$(".metal_door", $("#door_handing")).show();
+	// 			ss = getDoorHandingOpt();
+	// 			return ss;
+
+	// 		}
+	// 		return "door_height";
+
+
+
+	// 	} else if(crnt_opt == 'door_height') {
+	// 		if ($("#choose_door_input").val() == 'Frame Only')
+	// 			return 'hinge_loc';
+
+	// 		door_height = $("#door_height_input").val();
+	// 		door_width = $("#door_width_input").val();
+	// 		if($("#single_double_input").hasIn("Single Wood")) {
+
+	// 			if( (door_width=='2\' 6" Door (30 inch)' || door_width=='3\' 0" Door (36 inch)') && (door_height=='6\' 8" Door (80 inch)' || door_height=='7\' 0" Door (84 inch)')) {
+	// 				$(".instock_normal").hide();
+	// 				$(".instock_special").show();
+	// 			} else {
+	// 				$(".instock_normal").show();
+	// 				$(".instock_special").hide();
+	// 			}
+
+	// 		} else if($("#single_double_input").val() == 'Double Wood Door'){
+	// 			if( (door_width=='5\' 0\'\' Door (60 inch)' || door_width=='6\' 0\'\' Door (72 inch)') && (door_height=='6\' 8" Door (80 inch)' || door_height=='7\' 0" Door (84 inch)')) {
+	// 				$(".instock_normal").hide();
+	// 				$(".instock_special").show();
+	// 			} else {
+	// 				$(".instock_normal").show();
+	// 				$(".instock_special").hide();
+	// 			}
+	// 		}
+	// 		var replacer = "";
+	// 		if($("#door_height_input").hasIn('84 inch'))
+	// 			replacer = "70";
+	// 		else if($("#door_height_input").hasIn('80 inch'))
+	// 			replacer = "68";
+	// 		else if($("#door_height_input").hasIn('96 inch'))
+	// 			replacer = "80";
+	// 		if(replacer) {
+	// 			$(".hinge_loc_change").each(function(index, element) {
+	// 				osrc = $(this).attr("src");
+	// 				usrc = osrc.substr(20,2);
+	// 				$(this).attr("src",osrc.replace(usrc,replacer));
+	// 			});
+	// 			$(".hinger_loc").hide();
+	// 			$(".hinges"+replacer).show();
+	// 		} else {
+	// 			$(".hinger_loc").hide();
+	// 		}
+	// 		if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote'){
+	// 			if( !$("#door_height_input").hasIn("Know")) {
+	// 				$("#hinge_loc_input").val('Steelcraft');
+	// 				$("#hinge-steelcraft").fadeIn();
+	// 			}
+	// 			ss = getDoorHandingOpt();
+	// 			return ss;
+
+	// 		} else {
+
+	// 			return "hinge_loc";
+
+	// 		}
+
+
+	// 	} else if(crnt_opt == 'door_handing') {
+
+
+	// 		if($("#choose_door_input").val() == 'Frame Only') {
+	// 			if($("#door_handing_input").hasIn('Double'))
+	// 				$(".col.single_door",$("#door_width")).hide();
+	// 			else
+	// 				$(".col.double_door",$("#door_width")).hide();
+	// 			return "frame_type";
+	// 		}
+
+	// 		if($("#single_double_input").hasIn("Building")) {
+	// 			$(".metalab_aactive", $("#cutout_kit")).hide();
+	// 			$(".metalab_active", $("#cutout_kit")).show();
+	// 		} else {
+	// 			$(".metalab_aactive", $("#cutout_kit")).show();
+	// 			$(".metalb_only", $("#cutout_kit")).hide();
+	// 		}
+	// 		if($("#single_double_input").hasIn("Metal Door")) {
+	// 			$("#fire_rate_input").val("Non Fire Rated");
+	// 		}
+
+	// 		return 'door_width';
+
+	// 	} else if(crnt_opt == 'fire_rate') {
+
+	// 		if($("#fire_rate_input").hasIn("3 HR"))
+	// 			$(".a3hr_fire").hide();
+	// 		else
+	// 			$(".a3hr_fire").show();
+
+	// 		if($("#fire_rate_input").hasIn("3 HR") || $("#fire_rate_input").hasIn("90 Min"))
+	// 			$(".a90min_fire").hide();
+	// 		else
+	// 			$(".a90min_fire").show();
+
+	// 		if($("#fire_rate_input").hasIn("Non") && doorView.type == 'wood') {
+	// 			$("#glass_type_input").val("Tempered Glass");
+	// 		}
+	// 		if((doorView.type == 'metal' || doorView.type == 'wood') && !$("#fire_rate_input").hasIn("Non")) {
+	// 			$(".nfire_rated").hide();
+	// 		} else {
+	// 			$(".nfire_rated").show();
+	// 		}
+
+	// 		 if($("#single_double_input").hasIn("Double") && $("#door_handing_input").hasIn("Vertical")) {
+	// 				$(".hardware_pkg").hide();
+	// 				$(".hardware_pkg.vertical_rod").show();
+	// 		 }
+	// 		 if($("#single_double_input").hasIn("Double") && $("#door_handing_input").hasIn("Mullion")) {
+	// 				$(".hardware_pkg").hide();
+	// 				$(".hardware_pkg.rim_exit_mullion").show();
+	// 		 }
+
+	// 		 if(!$("#door_handing_input").hasIn("Push")) {
+	// 				$(".hardware_pkg.push_pull").hide();
+	// 		 }
+
+	// 		if ($("#choose_door_input").val() == 'Frame Only')
+	// 			return 'shippingz';
+
+	// 		if( $("#door_width_input").hasIn("24 inch") || $("#door_width_input").hasIn("4' 0'' Door ") || $("#door_width_input").hasIn("28 inch") || $("#door_width_input").hasIn("4' 8'' Door")) {
+	// 			$(".glass12, .glassfull").hide();
+	// 		}
+
+	// 		return "cutout_kit";
+
+	// 	}  else if(crnt_opt == 'storef_hardware') {
+	// 		door_additional_preview();
+	// 		return "door_additional";
+	// 		//return "storef_ship";
+
+	// 	}  else if(crnt_opt == 'storef_ship') {
+	// 		door_additional_preview();
+	// 		return "door_additional";
+
+
+	// 	}  else if(crnt_opt == 'cutout_kit') {
+
+	// 		if($("#single_double_input").hasIn("Aluminum") || $("#single_double_input").hasIn("Bronze")) {
+	// 			return "storef_hardware";
+	// 		}
+
+	// 		if(crnt_input.val() == 'Full Glass') {
+
+	// 			$(".louver").hide();
+
+	// 		} else if(crnt_input.val() == 'No Glass Kit'){
+
+	// 			$(".louver").show();
+
+	// 		} else {
+
+	// 			$(".louver").show();
+
+	// 			$(".full_louver").hide();
+
+	// 		}
+
+	// 		if($("#fire_rate_input").hasIn("20 Min")) {
+	// 			if($("#single_double_input").hasIn("Building")) {
+	// 				$(".col", $("#finish_type")).hide();
+	// 				$(".metalab_only", $("#finish_type")).show();
+	// 				return "finish_type";
+	// 			}
+	// 			$(".col", $("#finish_type")).not(".init_hide").show();
+	// 			$(".metalab_only", $("#finish_type")).hide();
+
+	// 			if($("#single_double_input").hasIn("Metal")) {
+
+	// 				if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote' && $("#know_questions_input").hasIn("I Know My Door")) {
+
+	// 					return "frame_type";
+
+	// 				} else {
+
+	// 					return "harware_selection3";
+
+	// 				}
+
+	// 			}
+
+	// 			return "finish_type";
+	// 		}
+
+	// 		if($("#fire_rate_input").hasIn("3 HR")) {
+	// 			if($("#single_double_input").hasIn('Double Metal Door') || $("#single_double_input").hasIn('Single Metal Door') ) {
+
+	// 				if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote') {
+
+	// 					return "frame_type";
+
+	// 				} else {
+
+	// 					return "harware_selection";
+
+	// 				}
+
+	// 			}
+
+	// 			return "finish_type";
+
+
+	// 		}
+
+
+
+
+	// 		if($("#single_double_input").hasIn("Aluminum") || $("#single_double_input").hasIn("Bronze"))  {
+	// 			return "louver_kit";
+	// 		}
+
+	// 		if($("#single_double_input").hasIn("Building")) {
+	// 			$(".col", $("#louver_kit")).hide();
+	// 			$(".metalab_only", $("#louver_kit")).show();
+	// 			return "louver_kit";
+	// 		} else {
+	// 			$(".col", $("#louver_kit")).not(".init_hide").show();
+	// 			//return "glass_type";
+	// 		}
+
+	// 		if(crnt_input.val() == 'No Glass Kit')
+	// 			return "louver_kit";
+
+	// 		if($("#fire_rate_input").hasIn("Non") && doorView.type == 'wood')
+	// 			return "louver_kit";
+
+	// 		if($("#fire_rate_input").hasIn("Non") && $("#single_double_input").hasIn("Metal Door"))
+	// 			return "louver_kit";
+
+	// 		return "louver_kit";
+	// 	} else if(crnt_opt == 'glass_type') {
+	// 			return "louver_kit";
+	// 	} else if(crnt_opt == 'louver_kit') {
+
+
+	// 		if($("#single_double_input").hasIn("Building")) {
+	// 			$(".col", $("#finish_type")).hide();
+	// 			$(".metalab_only", $("#finish_type")).show();
+	// 			return "finish_type";
+	// 		}
+	// 		$(".col", $("#finish_type")).not(".init_hide").show();
+	// 		$(".metalab_only", $("#finish_type")).hide();
+
+	// 		if($("#single_double_input").hasIn("Metal")) {
+
+	// 			if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote' && $("#know_questions_input").hasIn("I Know My Door")) {
+
+	// 				return "frame_type";
+
+	// 			} else {
+
+	// 				return "harware_selection3";
+
+	// 			}
+
+	// 		}
+
+	// 			return "finish_type";
+
+
+
+	// 	} else if(crnt_opt == 'finish_type') {
+
+
+	// 		if($("#single_double_input").hasIn("Building")) {
+	// 			if(doorView.sides == 'single')
+	// 				$(".push_pull", $("#harware_selection3")).hide();
+	// 			$(".metalb_hide", $("#harware_selection3")).hide();
+	// 			return "harware_selection3";
+	// 		}
+
+	// 		if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote' && $("#know_questions_input").hasIn("I Know My Door") ) {
+
+	// 			return "frame_type";
+
+	// 		} else {
+	// 			if($("#know_questions_input").hasIn("I Don't Know"))
+	// 				return 'harware_selection78';
+	// 			else
+	// 				return "harware_selection3";
+
+	// 		}
+
+	// 	} else if(crnt_opt == 'finish_color') {
+
+	// 		if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote') {
+
+	// 			return "frame_type";
+
+	// 		} else {
+
+	// 			return "harware_selection3";
+
+	// 		}
+
+	// 	} else if(crnt_opt == 'frame_type') {
+
+	// 		if($("#frame_type_input").hasIn("Drywall Door")) {
+	// 			if($("#frame_type_input").hasIn("Wood")) {
+	// 				$(".drywall_wood").show();
+	// 				$(".drywall_metal").hide();
+	// 			} else {
+	// 				$(".drywall_wood").hide();
+	// 				$(".drywall_metal").show();
+	// 			}
+	// 			return "dry_wall_const";
+
+	// 		} else {
+	// 			if(doorView.welded == "welded") {
+	// 				$(".blockwall-simple").show();
+	// 				$(".blockwall-kd").hide();
+	// 			} else {
+	// 				$(".blockwall-simple").hide();
+	// 				$(".blockwall-kd").show();
+	// 			}
+	// 			return 'block_frame_question';
+
+	// 		}
+
+
+	// 	} else if(crnt_opt == 'block_frame_question') {
+	// 			if($("#block_frame_question_input").hasIn("Wrap")) {
+	// 				$(".wrap_frame").show();
+	// 				$(".butt_frame").hide();
+	// 				$(".flush_frame").hide();
+	// 			} else if($("#block_frame_question_input").hasIn("Butt")) {
+	// 				$(".butt_frame").show();
+	// 				$(".wrap_frame").hide();
+	// 				$(".flush_frame").hide();
+	// 			} else {
+	// 				$(".flush_frame").show();
+	// 				$(".butt_frame").hide();
+	// 				$(".wrap_frame").hide();
+	// 			}
+	// 			if($("#door_height_input").hasIn("80 inch") || $("#door_height_input").hasIn("96 inch")){
+	// 				$(".only4head").hide();
+	// 			} else {
+	// 				$(".only4head").show();
+	// 			}
+	// 			return 'block_wall_const';
+
+	// 	} else if(crnt_opt == 'dry_wall_const' || crnt_opt == 'block_wall_const') {
+
+	// 		if ($("#choose_door_input").val() == 'Frame Only')
+	// 			return 'door_width';
+	// 		else
+	// 			return 'harware_selection3';
+
+
+
+	// 	} else if(crnt_opt == 'frame_door') {
+
+	// 			return 'door_width';
+
+	// 	} else if(crnt_opt == 'harware_selection' ) {
+
+	// 		if($("#know_questions_input").hasIn("No")) {
+	// 				return 'harware_selection78';
+
+	// 		} else if(crnt_input.val() == 'Door Hardware Package') {
+
+	// 			return "harware_selection3";
+
+	// 		} else {
+
+	// 			$(".fix_bottom").show();
+
+	// 			return 'harware_selection5';
+
+	// 		}
+
+
+
+	// 	} else if(crnt_opt == 'harware_selection2' ) {
+
+	// 			return 'harware_selection5';
+
+	// 	} else if(crnt_opt == 'harware_selection78' ) {
+
+	// 			$(".hardware_pkg").hide();
+
+	// 			if(crnt_input.val() == 'Door With Lever') {
+	// 				$(".lever_set").show();
+	// 			} else if(crnt_input.val() == 'Push / Pull Door') {
+	// 				$(".push_pull").show();
+	// 			} else if(crnt_input.val() == 'Exit Bar Door') {
+	// 				$(".rim_exit").show();
+	// 			} else if(crnt_input.val() == 'One Side Exit Bar Door') {
+	// 				$(".rim_exit").show();
+	// 			} else if(crnt_input.val() == 'Two Side Exit Bar Door') {
+	// 				$(".rim_exit_mullion").show();
+	// 			}
+
+	// 			if(doorView.sides == "single") {
+	// 				if(crnt_input.val() == 'Door With Lever') {
+	// 					$(".lever_set").show();
+	// 					$("#door_additional .btnz[data-handing='handing-2']").show();
+	// 					$("#door_additional .btnz[data-handing='handing-2']").find("input.input_num").val(1);
+	// 					return  'harware_selection3';
+	// 				} else if(crnt_input.val() == 'Push / Pull Door') {
+	// 					$(".push_pull").show();
+	// 					$("#door_additional .btnz[data-handing='handing-2']").show();
+	// 					$("#door_additional .btnz[data-handing='handing-2']").find("input.input_num").val(1);
+	// 					$("#push_pull_simple").click();
+	// 				} else if(crnt_input.val() == 'Exit Bar Door') {
+	// 					$(".rim_exit").show();
+	// 					$("#door_additional .btnz[data-handing='handing-3']").show();
+	// 					$("#door_additional .btnz[data-handing='handing-3']").find("input.input_num").val(1);
+	// 					$("#rim_exit_exterior").click();
+	// 				}
+	// 			} else {
+	// 				if(crnt_input.val() == 'Door With Lever') {
+	// 					$(".lever_set").show();
+	// 					$("#door_additional .btnz[data-handing='handing-5']").show();
+	// 					$("#door_additional .btnz[data-handing='handing-5']").find("input.input_num").val(1);
+	// 					return  'harware_selection3';
+	// 				} else if(crnt_input.val() == 'Push / Pull Door') {
+	// 					$(".push_pull").show();
+	// 					$("#door_additional .btnz[data-handing='handing-12']").show();
+	// 					$("#door_additional .btnz[data-handing='handing-12']").find("input.input_num").val(1);
+	// 					$("#push_pull_simple").click();
+	// 				} else if(crnt_input.val() == 'One Side Exit Bar Door') {
+	// 					$(".rim_exit").show();
+	// 					$("#door_additional .btnz[data-handing='handing-13']").show();
+	// 					$("#door_additional .btnz[data-handing='handing-13']").find("input.input_num").val(1);
+	// 					$("#rim_exit_exterior").click();
+	// 				} else if(crnt_input.val() == 'Double Exit Door With Mullion') {
+	// 					$(".rim_exit_mullion").show();
+	// 					$("#door_additional .btnz[data-handing='handing-10']").show();
+	// 					$("#door_additional .btnz[data-handing='handing-10']").find("input.input_num").val(1);
+	// 					$("#mullion_simple").click();
+	// 				} else if(crnt_input.val() == 'Double Vertical Rod Exit Door') {
+	// 					$(".rim_exit_mullion").show();
+	// 					$("#door_additional .btnz[data-handing='handing-10']").show();
+	// 					$("#door_additional .btnz[data-handing='handing-10']").find("input.input_num").val(1);
+	// 					$("#svr_simple").click();
+	// 				}
+	// 			}
+
+	// 			if(doorView.type == "metal" && !($("#single_double_input").hasIn("Building"))  && $("#door_location_input").hasIn("Exterior") )
+	// 				return 'harware_selection7';
+	// 			else
+	// 				return 'harware_selection4';
+
+	// 	} else if(crnt_opt == 'harware_selection3' ) {
+	// 		if($("#single_double_input").hasIn("Building"))
+	// 			return 'harware_selection4';
+
+	// 		if($("#harware_selection3_input").hasIn("Deadbolt") && ($("#fire_rate_input").hasIn("Min") || $("#fire_rate_input").hasIn("HR"))) {
+	// 			$("#harware_selection41_input").val("Single Cylinder Deadbolt");
+	// 			if($("#harware_selection3_input").hasIn("Leverset"))
+	// 				return 'harware_selection42';
+
+	// 			if(doorView.type == "metal" && !$("#single_double_input").hasIn("Building") && $("#door_location_input").hasIn("Exterior"))
+	// 				return 'harware_selection7';
+	// 			else
+	// 				return 'harware_selection4';
+	// 		} else if($("#harware_selection3_input").hasIn("Deadbolt")){
+	// 			return 'harware_selection41';
+	// 		}
+	// 		if($("#harware_selection3_input").hasIn("Leverset"))
+	// 			return 'harware_selection42';
+
+	// 		if(doorView.type == "metal" && !$("#single_double_input").hasIn("Building") && $("#door_location_input").hasIn("Exterior"))
+	// 			return 'harware_selection7';
+	// 		else
+	// 			return 'harware_selection4';
+
+	// 	} else if(crnt_opt == 'harware_selection41' ) {
+
+	// 		if($("#harware_selection3_input").hasIn("Leverset"))
+	// 			return 'harware_selection42';
+
+	// 		if(doorView.type == "metal" && !$("#single_double_input").hasIn("Building") && $("#door_location_input").hasIn("Exterior"))
+	// 			return 'harware_selection7';
+	// 		else
+	// 			return 'harware_selection4';
+
+	// 	} else if(crnt_opt == 'harware_selection42' ) {
+
+	// 		if(doorView.type == "metal" && !$("#single_double_input").hasIn("Building") && $("#door_location_input").hasIn("Exterior"))
+	// 			return 'harware_selection7';
+	// 		else
+	// 			return 'harware_selection4';
+
+	// 	} else if(crnt_opt == 'harware_selection7' ) {
+	// 			if($("#single_double_input").hasIn("Building"))
+	// 				return 'harware_selection17';
+
+	// 			return 'harware_selection4';
+
+
+	// 	} else if(crnt_opt == 'harware_selection17' ) {
+
+	// 			return 'harware_selection4';
+
+
+	// 	} else if(crnt_opt == 'harware_selection18' ) {
+
+	// 			return 'shippingz';
+
+
+	// 	} else if(crnt_opt == 'harware_selection4' ) {
+
+	// 			door_additional_preview();
+	// 			return 'door_additional';
+
+
+	// 	} else if(crnt_opt == 'harware_selection5' ) {
+
+	// 		if(crnt_input.val() == 'Add Additional Hardware') {
+
+	// 			return "harware_selection6";
+
+	// 		} else if(crnt_input.val() == 'Add Handing Quantity') {
+
+	// 			door_additional_preview();
+	// 			return "door_additional";
+
+	// 		} else if(crnt_input.val() == 'Add Another Door Package') {
+
+
+	// 		} else if ($("#single_double_input").hasIn("Aluminum") || $("#single_double_input").hasIn("Bronze")) {
+
+	// 			return 'shippingz';
+
+	// 		} else if (page_count > 0) {
+
+	// 			return 'shipping';
+
+	// 		}  else {
+
+	// 			return 'shippingz';
+
+	// 		}
+
+	// 	} else if(crnt_opt == 'door_additional' ) {
+
+	// 			return 'harware_selection5';
+
+	// 	} else if(crnt_opt == 'harware_selection6' ) {
+
+	// 		if (page_count > 0) {
+
+	// 			return 'shipping';
+
+	// 		}  else {
+
+	// 			return 'shippingz';
+
+	// 		}
+
+
+
+	// 	} else if(crnt_opt == 'hardware_selection9' ) {
+
+	// 		if (page_count > 0) {
+
+	// 			return 'shipping';
+
+	// 		}  else {
+
+	// 			return 'shippingz';
+
+	// 		}
+
+
+	// 	} else if(crnt_opt == 'shipping' ) {
+
+	// 			return 'shippingz';
+
+	// 	} else if(crnt_opt == 'shippingz' ) {
+
+	// 			return 'shipping_additional';
+
+	// 	}  else if(crnt_opt == 'shipping_additional' ) {
+
+	// 			return 'order_time';
+
+	// 	}  else if(crnt_opt == 'order_time' ) {
+
+	// 			$(".fix_bottom").hide();
+
+	// 			$('.done').show();
+
+	// 			return 'shipping_last';
+
+	// 	} else if(crnt_opt == "upload_plans") {
+	// 		if(document.getElementById("division_plans").files.length != 0 || document.getElementById("division_plans").files.length != 0)
+	// 			$(".shipping_speed").hide();
+
+	// 		return "shippingz";
+	// 	}
+
+	// }
+
+	function get_next_opts(crnt_opt) {
+		if($("#door_width_input").val() == "2' 0\" Door (24 inch)" || $("#door_width_input").val() == "2'4\" Door (28 inch)"){
+			$(".hd-single").hide();
+		}
+		crnt_input = $("#" + crnt_opt + "_input");
+
+		if(crnt_opt == 'choose_door') {
+			$("#img_div").addClass("side_fix");
+			$("#firstpage_layer").fadeOut();
+			if(crnt_input.val() == 'Door Only') {
+				$(".metalb_door").hide();
+				return "single_double";
+
+			} else if (crnt_input.val() == 'Frame Only') {
+					$(".wood_door").hide();
+					$(".metal_door").show();
+					$(".aframe_layer").hide();
+					$(".col","#door_handing").hide();
+					$(".change_frame_title","#door_handing").text("Double Door");
+					$(".frame_only","#door_handing").show();
+				return "door_handing";
+
+			} else if (crnt_input.val() == 'Hardware Only') {
+
+				return "hardware_selection9";
+
+			} else if (crnt_input.hasIn("Door")) {
+				if(crnt_input.hasIn("Store")) {
+					$(".wood_door").hide();
+					$(".metal_door").hide();
+					$(".metalb_door").hide();
+					$(".storef_door").show();
+
+				} else if(crnt_input.hasIn("Wood")) {
+					$(".wood_door").show();
+					$(".metal_door").hide();
+					$(".metalb_door").hide();
+					$(".storef_door").hide();
+
+				} else if(crnt_input.hasIn("Building")){
+					exit();
+					$(".wood_door").hide();
+					$(".metalb_door").show();
+					$(".metal_door").hide();
+					$(".storef_door").hide();
+				} else if(crnt_input.hasIn("Metal")){
+					$(".wood_door").hide();
+					$(".metal_door").show();
+					$(".metalb_door").hide();
+					$(".storef_door").hide();
+				}
+				/*if($("#single_double_input").hasIn('Single')) {
+					$(".single_door").show();$(".double_door").hide();
+				} else {
+					$(".single_door").hide();$(".double_door").show();
+				}
+				if($("#single_double_input").hasIn('Wood')) {
+					$(".wood_door").show();$(".metal_door").hide();
+				} else {
+					$(".wood_door").hide();$(".metal_door").show();
+				}*/
+
+
+				$("#know_questions_input").val('I Know My Door Size');
+				typer = doorView.type;
+				if(crnt_input.hasIn("Building")) typer = 'metalb';
+				lclass = ".louver_ico."+doorView.sides+"_louver_ico."+doorView.sides+"."+typer;
+				$(".louver_ico").hide();
+				$(lclass).show();
+
+				crnt_input.val("Door, Frame & Hardware Package Instant Online Quote");
+				return "single_double";
+
+			} else if (crnt_input.val() ==  'Upload Construction Plan  Quotes Within 48 HRS') {
+
+				return "upload_plans";
+
+			}
+
+
+		} else if(crnt_opt == 'single_double') {
+
+
+			if($("#single_double_input").hasIn("Aluminum") || $("#single_double_input").hasIn("Bronze")) {
+				$(".main_img").hide();
+				$("#sfmain_layer").show();
+				if($("#single_double_input").hasIn("Double")) {
+					$("#sfdoor_handing_input").val("Right Hinge Swing Out Active (RHRA)");
+					return 'storef_hardware';
+				}
+				return "sfdoor_handing";
+			}
+
+			if($("#single_double_input").hasIn("No Frame")) {
+				$("#choose_door_input").val("Door Only");
+				$(".metalb_door").hide();
+			}
+
+			if($("#single_double_input").hasIn("Single")) {
+
+				$(".single_door").show();
+
+				$(".double_door").hide();
+
+			} else {
+
+				$(".single_door").hide();
+
+				$(".double_door").show();
+
+			}
+
+			if($("#single_double_input").hasIn("Building"))
+				$(".metalab_hide", $("#door_handing")).hide();
+
+
+			typer = doorView.type;
+			if($("#single_double_input").hasIn("Building")) typer = 'metalb';
+			lclass = ".louver_ico."+doorView.sides+"_louver_ico."+doorView.sides+"."+typer;
+			$(".louver_ico").hide();
+			$(lclass).show();
+			$("#know_questions_input").val('I Know My Door Size');
+			if(crnt_input.hasIn("Building") && $("#single_double_input").hasIn("Single")){
+				$(".single_door", $("#door_width")).hide();
+				$(".metalab_active", $("#door_width")).show();
+				$("#door_height_input").val("7' 0\" Door (84 inch)");
+			} else if(crnt_input.hasIn("Building")  && $("#single_double_input").hasIn("Double")) {
+				$("#door_width_input").val("6' 0'' Door (72 inch)");
+				$("#door_height_input").val("7' 0\" Door (84 inch)");
+				$(".metal_door", $("#door_handing")).show();
+				// return "door_handing";
+			} else if(crnt_input.hasIn("Metal Door")) {
+				//return "door_location";
+			}
+			//return "door_width";
+			if($("#single_double_input").hasIn("Building")){
+				// $("#push_pull_simple").hide();
+				// $(".mortise-selected").hide();
+
+				$(".col", $("#finish_type")).hide();
+				$(".metalab_only", $("#finish_type")).show();
+				return "finish_type";
+			}
+			return "harware_selection293";
+		} else if(crnt_opt == 'harware_selection293') {
+			$(".hs41").hide();
+			$(".hs42").show();
+			if($("#harware_selection293_input").hasIn("Lever")) {
+
+				if($("#single_double_input").hasIn("Single")) {
+
+					$(".col", $("#door_handing")).hide();
+					$(".lever_set.single_door", $("#door_handing")).show();
+
+				} else {
+
+					$(".col", $("#door_handing")).hide();
+					$(".lever_set.double_door", $("#door_handing")).show();
+
+				}
+
+				$(".col", $("#harware_selection3")).hide();
+				$(".lever_set", $("#harware_selection3")).show();
+
+			} else if($("#harware_selection293_input").hasIn("Exit")) {
+
+				if($("#single_double_input").hasIn("Single")) {
+
+					$(".col", $("#door_handing")).hide();
+					$(".door_mullion.single_door", $("#door_handing")).show();
+
+				} else {
+
+					$(".col", $("#door_handing")).hide();
+					$(".door_mullion.double_door", $("#door_handing")).show();
+
+				}
+
+				// if($("#single_double_input").hasIn("Single")) {
+
+				// 	$(".col", $("#harware_selection3")).hide();
+				// 	$(".rim_exit", $("#harware_selection3")).show();
+
+				// } else {
+
+				// 	$(".col", $("#harware_selection3")).hide();
+				// 	$(".rim_exit_mullion", $("#harware_selection3")).show();
+				// 	$(".vertical_rod", $("#harware_selection3")).show();
+
+				// }
+				// return "harware_selection3";
+
+				return "door_handing";
+			} else if($("#harware_selection293_input").hasIn("Push")) {
+
+				if($("#single_double_input").hasIn("Single")) {
+
+					$(".col", $("#door_handing")).hide();
+					$(".lever_set.single_door", $("#door_handing")).show();
+
+				} else {
+
+					$(".col", $("#door_handing")).hide();
+					$(".push_pull.double_door", $("#door_handing")).show();
+
+				}
+
+
+				$(".col", $("#harware_selection3")).hide();
+				$(".push_pull", $("#harware_selection3")).show();
+			} else if($("#harware_selection293_input").hasIn("Mortise")) {
+				$(".hs42").hide();
+				$(".hs41").show();
+				if($("#single_double_input").hasIn("Single")) {
+
+					$(".col", $("#door_handing")).hide();
+					$(".lever_set.single_door", $("#door_handing")).show();
+
+				} else {
+
+					$(".col", $("#door_handing")).hide();
+					$(".lever_set.double_door", $("#door_handing")).show();
+
+				}
+
+
+				$(".col", $("#harware_selection3")).hide();
+				$(".mortise_lock", $("#harware_selection3")).show();
+			}
+
+			if($("#single_double_input").hasIn("Building")){
+				$(".metalab_hide", $("#door_handing")).hide();
+			}
+
+				return "harware_selection3";
+
+		} else if(crnt_opt == 'door_location') {
+
+				return "door_width";
+
+		} else if(crnt_opt == 'sfdoor_handing') {
+				//$(".col", $("#cutout_kit")).hide();
+				//$(".storef_door", $("#cutout_kit")).show();
+
+				//return "cutout_kit";
+				return "storef_hardware";
+
+		} else if(crnt_opt == 'know_questions') {
+
+			if($("#know_questions_input").hasIn("I Don't Know")) {
+				if($("#single_double_input").hasIn('Single')) {
+
+					$("#door_width_input").val("3' 0\" Door (36 inch)");
+				} else {
+					$("#door_width_input").val("6' 0'' Door (72 inch)");
+				}
+				$(".instock_normal").hide();
+				$("#door_height_input").val("7' 0\" Door (84 inch)");
+				$("#fire_rate_input").val("Non Fire Rated");
+				$("#dry_wall_const_input").val("4 7/8'' Wall Thickness Fits");
+				$("#door_handing_input").val("Left Hand");
+				return "cutout_kit";
+			}
+
+			return "door_width";
+
+		} else if(crnt_opt == 'hinge_loc') {
+			if($("#harware_selection293_input").hasIn("Push")){
+				return 'cutout_kit';
+			}
+			else
+			if ($("#choose_door_input").val() == 'Frame Only')
+				return 'fire_rate';
+
+			ss = getDoorHandingOpt();
+			return ss;
+
+
+
+		} else if(crnt_opt == 'door_width') {
+			if( $("#door_width_input").val() == "4' 8'' Door" ||  $("#door_width_input").val() == "4' 0'' Door") {
+				$(".door_mullion", $("#door_handing")).hide();
+			}
+
+			if($("#single_double_input").hasIn("Building")) {
+				$(".metalab_hide").hide();
+				$(".metal_door", $("#door_handing")).show();
+				ss = getDoorHandingOpt();
+				return ss;
+
+			}
+			return "door_height";
+
+
+
+		} else if(crnt_opt == 'door_height') {
+			if ($("#choose_door_input").val() == 'Frame Only'){
+				$("#hinge_loc_input").val('Steelcraft');
+				return 'fire_rate'
+				// return 'hinge_loc';
+			}
+					
+
+			door_height = $("#door_height_input").val();
+			door_width = $("#door_width_input").val();
+
+			if($("#single_double_input").hasIn("Single Wood")) {
+
+				if( (door_width=='2\' 6" Door (30 inch)' || door_width=='3\' 0" Door (36 inch)') && (door_height=='6\' 8" Door (80 inch)' || door_height=='7\' 0" Door (84 inch)')) {
+					$(".instock_normal").hide();
+					$(".instock_special").show();
+				} else {
+					$(".instock_normal").show();
+					$(".instock_special").hide();
+				}
+
+			} else if($("#single_double_input").val() == 'Double Wood Door'){
+				if( (door_width=='5\' 0\'\' Door (60 inch)' || door_width=='6\' 0\'\' Door (72 inch)') && (door_height=='6\' 8" Door (80 inch)' || door_height=='7\' 0" Door (84 inch)')) {
+					$(".instock_normal").hide();
+					$(".instock_special").show();
+				} else {
+					$(".instock_normal").show();
+					$(".instock_special").hide();
+				}
+			}
+			var replacer = "";
+			if($("#door_height_input").hasIn('84 inch'))
+				replacer = "70";
+			else if($("#door_height_input").hasIn('80 inch'))
+				replacer = "68";
+			else if($("#door_height_input").hasIn('96 inch'))
+				replacer = "80";
+			if(replacer) {
+				$(".hinge_loc_change").each(function(index, element) {
+					osrc = $(this).attr("src");
+					usrc = osrc.substr(20,2);
+					$(this).attr("src",osrc.replace(usrc,replacer));
+				});
+				$(".hinger_loc").hide();
+				$(".hinges"+replacer).show();
+			} else {
+				$(".hinger_loc").hide();
+			}
+			if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote'){
+				if( !$("#door_height_input").hasIn("Know")) {
+					$("#hinge_loc_input").val('Steelcraft');
+					$("#hinge-steelcraft").fadeIn();
+				}
+				ss = getDoorHandingOpt();
+				return ss;
+
+			} else {
+
+				return "hinge_loc";
+
+			}
+
+
+		} else if(crnt_opt == 'door_handing') {
+
+
+			if($("#choose_door_input").val() == 'Frame Only') {
+				if($("#door_handing_input").val() == "9- Double Door"){
+					doorView.sides = "double";
+				}
+				else{
+					doorView.sides = "single";
+				}
+				changeLayer("frame", doorParts.frames[doorView.sides][doorView.framesize][doorView.welded][doorView.view]);
+
+				if($("#door_handing_input").hasIn('Double'))
+					$(".col.single_door",$("#door_width")).hide();
+				else
+					$(".col.double_door",$("#door_width")).hide();
+				return "frame_type";
+			}
+
+			if($("#single_double_input").hasIn("Building")) {
+				$(".metalab_aactive", $("#cutout_kit")).hide();
+				$(".metalab_active", $("#cutout_kit")).show();
+			} else {
+				$(".metalab_aactive", $("#cutout_kit")).show();
+				$(".metalb_only", $("#cutout_kit")).hide();
+			}
+			if($("#single_double_input").hasIn("Metal Door")) {
+				$("#fire_rate_input").val("Non Fire Rated");
+			}
+
+			if($("#door_handing_input").hasIn("Exit Device")){
+				if($("#single_double_input").hasIn("Single")) {
+
+					$(".col", $("#harware_selection3")).hide();
+					$(".rim_exit", $("#harware_selection3")).show();
+
+				} 
+
+				return 'harware_selection3';
+			}
+
+			if($("#door_handing_input").hasIn("Mullion")) {
+				if($("#single_double_input").hasIn("Double")){
+					$(".rim_exit_mullion", $("#harware_selection3")).show();
+					return 'harware_selection3';
+				}
+			}
+			else if($("#door_handing_input").hasIn("Vertical Rods")) {
+				if($("#single_double_input").hasIn("Double")){
+					$(".vertical_rod", $("#harware_selection3")).show();
+					return 'harware_selection3';
+				}
+			}
+
+			if($("#single_double_input").hasIn("Double") && ($("#single_double_input").hasIn("Building"))){
+				return "cutout_kit";
+			}
+
+			if($("#single_double_input").hasIn("Metal Door")) {
+				return "door_location";
+			}
+
+			return 'door_width';
+
+		} else if(crnt_opt == 'fire_rate') {
+
+			if($("#fire_rate_input").hasIn("3 HR"))
+				$(".a3hr_fire").hide();
+			else
+				$(".a3hr_fire").show();
+
+			if($("#fire_rate_input").hasIn("3 HR") || $("#fire_rate_input").hasIn("90 Min"))
+				$(".a90min_fire").hide();
+			else
+				$(".a90min_fire").show();
+
+			if($("#fire_rate_input").hasIn("Non") && doorView.type == 'wood') {
+				$("#glass_type_input").val("Tempered Glass");
+			}
+			if((doorView.type == 'metal' || doorView.type == 'wood') && !$("#fire_rate_input").hasIn("Non")) {
+				$(".nfire_rated").hide();
+			} else {
+				$(".nfire_rated").show();
+			}
+
+			if ($("#choose_door_input").val() == 'Frame Only'){
+				door_additional_preview();
+				return 'door_additional';
+				// return 'shippingz';
+			}
+
+
+			return "cutout_kit";
+
+		}  else if(crnt_opt == 'storef_hardware') {
+			door_additional_preview();
+			return "door_additional";
+			//return "storef_ship";
+
+		}  else if(crnt_opt == 'storef_ship') {
+			door_additional_preview();
+			return "door_additional";
+
+
+		}  else if(crnt_opt == 'cutout_kit') {
+
+			if($("#single_double_input").hasIn("Aluminum") || $("#single_double_input").hasIn("Bronze")) {
+				return "storef_hardware";
+			}
+
+			if(crnt_input.val() == 'Full Glass') {
+
+				$(".louver").hide();
+
+			} else if(crnt_input.val() == 'No Glass Kit'){
+
+				$(".louver").show();
+
+			} else {
+
+				$(".louver").show();
+
+				$(".full_louver").hide();
+
+			}
+
+			if($("#fire_rate_input").hasIn("20 Min")) {
+				if($("#single_double_input").hasIn("Building")) {
+					$(".col", $("#finish_type")).hide();
+					$(".metalab_only", $("#finish_type")).show();
+					return "finish_type";
+				}
+				$(".col", $("#finish_type")).not(".init_hide").show();
+				$(".metalab_only", $("#finish_type")).hide();
+
+				if($("#single_double_input").hasIn("Metal")) {
+
+					if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote' && $("#know_questions_input").hasIn("I Know My Door")) {
+
+						return "frame_type";
+
+					} else {
+
+						returnto = getharwareSelection3();
+						return returnto + "";
+
+					}
+
+				}
+
+				return "finish_type";
+			}
+
+			if($("#fire_rate_input").hasIn("3 HR")) {
+				if($("#single_double_input").hasIn('Double Metal Door') || $("#single_double_input").hasIn('Single Metal Door') ) {
+
+					if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote') {
+
+						return "frame_type";
+
+					}
+					else {
+
+						returnto = getharwareSelection3();
+						return returnto + "";
+
+					}
+
+				}
+
+				return "finish_type";
+
+
+			}
+
+
+
+
+			if($("#single_double_input").hasIn("Aluminum") || $("#single_double_input").hasIn("Bronze"))  {
+				return "louver_kit";
+			}
+
+			if($("#single_double_input").hasIn("Building")) {
+				// $(".col", $("#louver_kit")).hide();
+				// $(".metalab_only", $("#louver_kit")).show();
+				// return "louver_kit";
+
+				// $(".col", $("#finish_type")).hide();
+				// $(".metalab_only", $("#finish_type")).show();
+				// return "finish_type";
+				if(doorView.sides == 'single')
+					$(".push_pull", $("#harware_selection3")).hide();
+				$(".metalb_hide", $("#harware_selection3")).hide();
+				returnto = getharwareSelection3();
+				return returnto + "";
+			} else {
+				$(".col", $("#louver_kit")).not(".init_hide").show();
+				//return "glass_type";
+			}
+
+			if(crnt_input.val() == 'No Glass Kit')
+				return "louver_kit";
+
+			if($("#fire_rate_input").hasIn("Non") && doorView.type == 'wood')
+				return "louver_kit";
+
+			if($("#fire_rate_input").hasIn("Non") && $("#single_double_input").hasIn("Metal Door"))
+				return "louver_kit";
+
+			return "louver_kit";
+		} else if(crnt_opt == 'glass_type') {
+				return "louver_kit";
+		} else if(crnt_opt == 'louver_kit') {
+
+
+			if($("#single_double_input").hasIn("Building")) {
+				$(".col", $("#finish_type")).hide();
+				$(".metalab_only", $("#finish_type")).show();
+				return "finish_type";
+			}
+			$(".col", $("#finish_type")).not(".init_hide").show();
+			$(".metalab_only", $("#finish_type")).hide();
+
+			if($("#single_double_input").hasIn("Metal")) {
+
+				if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote' && $("#know_questions_input").hasIn("I Know My Door")) {
+
+					return "frame_type";
+
+				} else {
+
+					returnto = getharwareSelection3();
+					return returnto + "";
+
+				}
+
+			}
+
+				return "finish_type";
+
+
+
+		} else if(crnt_opt == 'finish_type') {
+
+
+			if($("#single_double_input").hasIn("Building")) {
+				// if(doorView.sides == 'single')
+				// 	$(".push_pull", $("#harware_selection3")).hide();
+				// $(".metalb_hide", $("#harware_selection3")).hide();
+				// returnto = getharwareSelection3();
+				// return returnto + "";
+
+				door_color =  $("#finish_type .btn.btn-primary").data("code");
+				if(door_color == 'bronze'){
+					typer = 'metalb-bronze';
+					lclass = ".louver_ico."+doorView.sides+"_louver_ico."+doorView.sides+"."+typer;
+					$(lclass).show();
+					$(".metalb-white").hide();
+				}
+				$("#push_pull_simple").hide();
+				$(".mortise-selected").hide();
+				return "harware_selection293";
+			}
+
+			if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote' && $("#know_questions_input").hasIn("I Know My Door") ) {
+
+				return "frame_type";
+
+			} else {
+				if($("#know_questions_input").hasIn("I Don't Know"))
+					return 'harware_selection78';
+				else
+						returnto = getharwareSelection3();
+				return returnto + "";
+
+			}
+
+		} else if(crnt_opt == 'finish_color') {
+
+			if($("#choose_door_input").val() == 'Door, Frame & Hardware Package Instant Online Quote') {
+
+				return "frame_type";
+
+			} else {
+
+				returnto = getharwareSelection3();
+				return returnto + "";
+
+			}
+
+		} else if(crnt_opt == 'frame_type') {
+
+			if($("#frame_type_input").hasIn("Drywall Door")) {
+				door_width = $("#door_width_input").val();
+				if( (door_width=='6\' 0\'\' Door (72 inch)' || door_width=='3\' 0" Door (36 inch)') && ($("#door_location_input").hasIn("Interior") || $("#single_double_input").hasIn("Wood Door")) ){
+					return "frame_color";
+				}
+				else{
+					if($("#frame_type_input").hasIn("Wood")) {
+						$(".drywall_wood").show();
+						$(".drywall_metal").hide();
+					} else {
+						$(".drywall_wood").hide();
+						$(".drywall_metal").show();
+					}
+					return "dry_wall_const";
+				}
+
+			} else {
+				if(doorView.welded == "welded") {
+					$(".blockwall-simple").show();
+					$(".blockwall-kd").hide();
+				} else {
+					$(".blockwall-simple").hide();
+					$(".blockwall-kd").show();
+				}
+				return 'block_frame_question';
+
+			}
+
+
+		}else if(crnt_opt == 'frame_color'){
+			if($("#frame_type_input").hasIn("Wood")) {
+					$(".drywall_wood").show();
+					$(".drywall_metal").hide();
+				} else {
+					$(".drywall_wood").hide();
+					$(".drywall_metal").show();
+				}
+				return "dry_wall_const";
+		}
+		else if(crnt_opt == 'pre_finished_frame'){
+			if($("#frame_type_input").hasIn("Wood")) {
+				$(".drywall_wood").show();
+				$(".drywall_metal").hide();
+			} else {
+				$(".drywall_wood").hide();
+				$(".drywall_metal").show();
+			}
+			return "dry_wall_const";
+		}
+		 else if(crnt_opt == 'block_frame_question') {
+				if($("#block_frame_question_input").hasIn("Wrap")) {
+					$(".wrap_frame").show();
+					$(".butt_frame").hide();
+					$(".flush_frame").hide();
+				} else if($("#block_frame_question_input").hasIn("Butt")) {
+					$(".butt_frame").show();
+					$(".wrap_frame").hide();
+					$(".flush_frame").hide();
+				} else {
+					$(".flush_frame").show();
+					$(".butt_frame").hide();
+					$(".wrap_frame").hide();
+				}
+
+				if($("#door_height_input").hasIn("80 inch") || $("#door_height_input").hasIn("96 inch")){
+					$(".only4head").hide();
+				} else {
+					$(".only4head").show();
+				}
+
+				return 'block_wall_const';
+
+		} else if(crnt_opt == 'dry_wall_const' || crnt_opt == 'block_wall_const') {
+
+			if ($("#choose_door_input").val() == 'Frame Only') {
+				return 'door_width';
+			} else {
+				returnto = getharwareSelection3();
+				return returnto + "";
+			}
+
+
+
+		} else if(crnt_opt == 'frame_door') {
+
+				return 'door_width';
+
+		} else if(crnt_opt == 'harware_selection' ) {
+
+			if($("#know_questions_input").hasIn("No")) {
+					return 'harware_selection78';
+
+			} else if(crnt_input.val() == 'Door Hardware Package') {
+
+				returnto = getharwareSelection3();
+				return returnto + "";
+
+			} else {
+
+				$(".fix_bottom").show();
+
+				return 'harware_selection5';
+
+			}
+
+
+
+		} else if(crnt_opt == 'harware_selection2' ) {
+
+				return 'harware_selection5';
+
+		} else if(crnt_opt == 'harware_selection78' ) {
+
+				$(".hardware_pkg").hide();
+
+				if(crnt_input.val() == 'Door With Lever') {
+					$(".lever_set").show();
+				} else if(crnt_input.val() == 'Push / Pull Door') {
+					$(".push_pull").show();
+				} else if(crnt_input.val() == 'Exit Bar Door') {
+					$(".rim_exit").show();
+				} else if(crnt_input.val() == 'One Side Exit Bar Door') {
+					$(".rim_exit").show();
+				} else if(crnt_input.val() == 'Two Side Exit Bar Door') {
+					$(".rim_exit_mullion").show();
+				}
+
+				if(doorView.sides == "single") {
+					if(crnt_input.val() == 'Door With Lever') {
+						$(".lever_set").show();
+						$("#door_additional .btnz[data-handing='handing-2']").show();
+						$("#door_additional .btnz[data-handing='handing-2']").find("input.input_num").val(1);
+						returnto = getharwareSelection3();
+						return returnto + "";
+					} else if(crnt_input.val() == 'Push / Pull Door') {
+						$(".push_pull").show();
+						$("#door_additional .btnz[data-handing='handing-2']").show();
+						$("#door_additional .btnz[data-handing='handing-2']").find("input.input_num").val(1);
+						$("#push_pull_simple").click();
+					} else if(crnt_input.val() == 'Exit Bar Door') {
+						$(".rim_exit").show();
+						$("#door_additional .btnz[data-handing='handing-3']").show();
+						$("#door_additional .btnz[data-handing='handing-3']").find("input.input_num").val(1);
+						$("#rim_exit_exterior").click();
+					}
+				} else {
+					if(crnt_input.val() == 'Door With Lever') {
+						$(".lever_set").show();
+						$("#door_additional .btnz[data-handing='handing-5']").show();
+						$("#door_additional .btnz[data-handing='handing-5']").find("input.input_num").val(1);
+						returnto = getharwareSelection3();
+				return returnto + "";
+					} else if(crnt_input.val() == 'Push / Pull Door') {
+						$(".push_pull").show();
+						$("#door_additional .btnz[data-handing='handing-12']").show();
+						$("#door_additional .btnz[data-handing='handing-12']").find("input.input_num").val(1);
+						$("#push_pull_simple").click();
+					} else if(crnt_input.val() == 'One Side Exit Bar Door') {
+						$(".rim_exit").show();
+						$("#door_additional .btnz[data-handing='handing-13']").show();
+						$("#door_additional .btnz[data-handing='handing-13']").find("input.input_num").val(1);
+						$("#rim_exit_exterior").click();
+					} else if(crnt_input.val() == 'Double Exit Door With Mullion') {
+						$(".rim_exit_mullion").show();
+						$("#door_additional .btnz[data-handing='handing-10']").show();
+						$("#door_additional .btnz[data-handing='handing-10']").find("input.input_num").val(1);
+						$("#mullion_simple").click();
+					} else if(crnt_input.val() == 'Double Vertical Rod Exit Door') {
+						$(".rim_exit_mullion").show();
+						$("#door_additional .btnz[data-handing='handing-10']").show();
+						$("#door_additional .btnz[data-handing='handing-10']").find("input.input_num").val(1);
+						$("#svr_simple").click();
+					}
+				}
+
+				if(doorView.type == "metal" && !($("#single_double_input").hasIn("Building"))  && $("#door_location_input").hasIn("Exterior") )
+					return 'harware_selection7';
+				else
+					return 'harware_selection4';
+
+		} else if(crnt_opt == 'harware_selection3' ) {
+			/*if($("#single_double_input").hasIn("Building"))
+				//return 'harware_selection4';
+			*/
+
+			if($("#single_double_input").hasIn("Building") && $("#harware_selection3_input").hasIn("Exit"))
+				return "cutout_kit";
+			
+
+			if($("#harware_selection3_input").hasIn("Deadbolt"))
+				return 'harware_selection41';
+
+			if($("#harware_selection3_input").hasIn("Leverset") || $("#harware_selection3_input").hasIn("Mortise"))
+				return 'harware_selection42';
+
+			/*if(doorView.type == "metal" && !$("#single_double_input").hasIn("Building") && $("#door_location_input").hasIn("Exterior"))
+				//return 'harware_selection7';
+			else
+				//return 'harware_selection4';*/
+
+			if($("#harware_selection3_input").hasIn("Exit")){
+
+				if($("#single_double_input").hasIn("Single")) {
+
+					$(".single_door.hide_on_exit").hide();
+
+				} else {
+
+					$(".double_door.hide_on_exit").hide();
+
+				}
+
+				if($("#single_double_input").hasIn("Metal Door")) {
+					return "door_location";
+				}
+
+				return 'door_width';
+			}
+
+			return "door_handing";
+
+
+		} else if(crnt_opt == 'harware_selection41' ) {
+
+			if($("#harware_selection3_input").hasIn("Leverset"))
+				return 'harware_selection42';
+
+			return 'door_handing';
+
+		} else if(crnt_opt == 'harware_selection42' ) {
+
+			// if(doorView.type == "metal" && !$("#single_double_input").hasIn("Building") && $("#door_location_input").hasIn("Exterior"))
+			// 	return 'harware_selection7';
+			// else
+			// 	return 'harware_selection4';
+			return "door_handing";
+
+		} else if(crnt_opt == 'harware_selection7' ) {
+				if($("#single_double_input").hasIn("Building"))
+					return 'harware_selection17';
+
+				return 'harware_selection4';
+
+
+		} else if(crnt_opt == 'harware_selection17' ) {
+
+				return 'harware_selection4';
+
+
+		} else if(crnt_opt == 'harware_selection18' ) {
+
+				return 'shippingz';
+
+
+		} else if(crnt_opt == 'harware_selection4' ) {
+
+				door_additional_preview();
+				return 'door_additional';
+
+
+		} else if(crnt_opt == 'harware_selection5' ) {
+
+			if(crnt_input.val() == 'Add Additional Hardware') {
+
+				return "harware_selection6";
+
+			} else if(crnt_input.val() == 'Add Handing Quantity') {
+
+				door_additional_preview();
+				return "door_additional";
+
+			} else if(crnt_input.val() == 'Add Another Door Package') {
+
+
+			} else if ($("#single_double_input").hasIn("Aluminum") || $("#single_double_input").hasIn("Bronze")) {
+
+				return 'shippingz';
+
+			} else if (page_count > 0) {
+
+				return 'shipping';
+
+			}  else if($("#door_quantity_input").val() > 1){
+			
+				return 'shipping';
+			
+			}
+
+			else {
+
+				return 'shippingz';
+
+			}
+
+		} else if(crnt_opt == 'door_additional' ) {
+
+				return 'harware_selection5';
+
+		} else if(crnt_opt == 'harware_selection6' ) {
+
+			if (page_count > 0) {
+
+				return 'shipping';
+
+			}  else {
+
+				return 'shippingz';
+
+			}
+
+
+
+		} else if(crnt_opt == 'hardware_selection9' ) {
+
+			if (page_count > 0) {
+
+				return 'shipping';
+
+			}  else {
+
+				return 'shippingz';
+
+			}
+
+
+		} else if(crnt_opt == 'shipping' ) {
+
+				return 'shippingz';
+
+		} else if(crnt_opt == 'shippingz' ) {
+
+				door_height = $("#door_height_input").val();
+
+				if(door_height == "8' 0'' Door (96 inch)"){
+					if($("#single_double_input").hasIn("Metal Door") || $("#single_double_input").hasIn("Wood Door")){
+						
+						$("#delivery_service").val('Self Unload From Back Of Truck');
+						// $("#shipping_additional").hide();
+						return 'order_time';
+					}
+				}
+
+				return 'shipping_additional';
+
+		}  else if(crnt_opt == 'shipping_additional' ) {
+
+				return 'order_time';
+
+		}  else if(crnt_opt == 'order_time' ) {
+
+				$(".fix_bottom").hide();
+
+				$('.done').show();
+
+				return 'shipping_last';
+
+		} else if(crnt_opt == "upload_plans") {
+			if(document.getElementById("division_plans").files.length != 0 || document.getElementById("division_plans").files.length != 0)
+				$(".shipping_speed").hide();
+
+			return "shippingz";
+		}
+
+	}
+
+
+	function getDoorHandingOpt() {
+			if(!$("#door_handing_input").hasIn('Double Push Pull') && !$("#harware_selection293_input").hasIn('Push / Pull') && !$("#single_double_input").hasIn("Building") && !($("#single_double_input").hasIn("Metal Door") && $("#door_location_input").hasIn("Exterior")))
+				return "fire_rate";
+			else
+				return "cutout_kit";
+	}
+
+	function getharwareSelection3() {
+		if($("#harware_selection42_input").hasIn("Passage") || $("#harware_selection42_input").hasIn("Privacy") || $("#harware_selection3_input").hasIn("Push / Pull Plates With Deadbolt")){
+			$(".key-alike").hide();
+		}
+		if(doorView.type == "metal" && !$("#single_double_input").hasIn("Building") && $("#door_location_input").hasIn("Exterior"))
+			return 'harware_selection7';
+		else
+			return 'harware_selection4';
+	}
+
+	function getharwareSelection42() {
+		if(doorView.type == "metal" && !$("#single_double_input").hasIn("Building") && $("#door_location_input").hasIn("Exterior"))
+			return 'harware_selection7';
+		else
+			return 'harware_selection4';
+	}
+
+	$(".next_view").click(function(e) {
+
+		if(sideView == $.trim($(this).text()))
+
+			return false;
+
+		$(".next_view").removeClass("active");
+
+		$(this).addClass("active");
+
+		sideView = $.trim($(this).text());
+
+		if($(this).data("view") == 'inside_view') {
+
+			$(".hardware_layer").show();
+
+			$(".ahardware_layer").hide();
+
+		} else {
+
+			$(".hardware_layer").hide();
+
+			$(".ahardware_layer").show();
+
+		}
+
+
+
+		revertOptions();
+
+    });
+
+
+
+	function revertOptions() {
+
+		doorView.view = getOpposite(doorView.view);
+
+		if(doorView.view == 'back')
+
+			handler = getOpposite(doorView.handing);
+
+		else
+
+			handler = doorView.handing;
+
+		if(hardware.handing) {
+
+			changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+
+		}
+
+		win_size =  $("#cutout_kit_input").val();
+		wsize = getWLSize(win_size);
+		if(doorView.sides == "single" && wsize == "s6x27")
+			changeLayer("window", doorParts.windows[doorView.sides][doorView.color][doorView.wired][wsize][handler]);
+		if(hardware.closer)
+
+			changeLayer("closer", doorParts.hardware.closer[doorView.sides][getOpposite(handler)]);
+
+		if(hardware.threshold)
+
+			changeLayer("threshold", doorParts.hardware.threshold[doorView.sides][doorView.view]);
+
+		if(hardware.deadbolt) {
+			lock_key = handler + "upper";
+			if(hardware.deadboltpos == "upper")
+				changeLayer("deadbolt", doorParts.hardware.lock[doorView.sides][doorView.view][lock_key]);
+			else
+				changeLayer("deadbolt", doorParts.hardware.lock[doorView.sides][doorView.view][handler]);
+		}
+		if(hardware.doorstop)
+
+			changeLayer("doorstop", doorParts.hardware.doorstop[doorView.sides][handler]);
+
+		if(hardware.pushplate) {
+
+			changeLayer("pushplate", doorParts.hardware.pushplate[doorView.sides][handler]);
+
+		}
+
+		if(hardware.pullplate) {
+
+			changeLayer("pullplate", doorParts.hardware.pullplate[doorView.sides][handler]);
+
+		}
+
+
+		if(hardware.pushbar && doorView.view == "front") {
+
+			$("#pushbar_layer").hide();
+			if(hardware.outsideHandle) {
+				if(doorView.sides == "single") {
+					changeLayer("handing", doorParts.hardware.handle[doorView.sides][handler]);
+				} else {
+					if( $("#door_handing_input").hasIn("Exit Device"))
+						changeLayer("handing", doorParts.hardware.handle[doorView.sides][getOpposite(handler)]);
+					else
+						changeLayer("handing", doorParts.hardware.handle.double.both);
+				}
+			}
+
+		} else if(hardware.pushbar && doorView.view == "back") {
+
+			$("#pushbar_layer").show();
+			changeLayer("handing","trans.png");
+		}
+
+
+		changeLayer("hinges", doorParts.hardware.hinges[doorView.sides][getOpposite(handler)]);
+
+		changeLayer("frame", doorParts.frames[doorView.sides][doorView.framesize][doorView.welded][doorView.view]);
+
+
+
+	}
+
+
+
+	function getOpposite(value) {
+
+		opts = {
+
+			left : 'right', // Outside or Inside
+
+			leftmortise : 'rightmortise', // Outside or Inside
+
+			metal : 'wood', //metal or wood
+
+			single : 'double', // single or double
+
+			welded : 'simple', //welded or simple
+
+			wired : 'simple', // Wired or simple
+
+			grey : 'brown', // grey or brown
+
+			front: 'back'
+
+		}
+
+
+
+		for(k in opts) {
+
+			if(k == value)
+
+				return opts[k];
+
+			if(opts[k] == value)
+
+				return k;
+
+		}
+
+	}
+
+
+function getPair(value) {
+
+		opts = {
+
+			'handing-1' : 'handing-2', // Outside or Inside
+
+			'handing-15' : 'handing-16', //metal or wood
+
+			'handing-13'  : 'handing-14', // sing-le or double
+
+			'handing-5'  : 'handing-6', //welded or simple
+
+			'handing-7' : 'handing-8', // Wired or simple
+
+			'handing-3' : 'handing-4', // Wired or simple
+
+		}
+
+
+
+		for(k in opts) {
+
+			if(k == value)
+
+				return opts[k];
+
+			if(opts[k] == value)
+
+				return k;
+
+		}
+
+		return false;
+
+	}
+
+
+	$("#up_country").change(function(e) {
+
+		if($("#up_country option:selected").val()=="USA")
+
+			$("#up_zip").attr("placeholder","ZIP Code");
+
+		else
+
+			$("#up_zip").attr("placeholder","Postal Code");
+
+    });
+
+	$("#ups_country").change(function(e) {
+
+		$("#ups_states option").hide();
+		if($("#ups_country option:selected").val()=="USA") {
+			$("#ups_states option.usa_states").show();
+			$("#ups_states").val("");
+		} else if($("#ups_country option:selected").val()=="Canada") {
+			$("#ups_states option.canada_states").show();
+			$("#ups_states").val("");
+		} else if($("#ups_country option:selected").val()=="Mexico") {
+			$("#ups_states option.mexico_states").show();
+			$("#ups_states").val("");
+		}
+    });
+
+
+
+	$(".datepicker").datepicker();
+	var sweep_count = 0, sweep_old, sweep_new;
+	function sweep_out() {
+		sweep_old = $("#sweep"+sweep_count);
+		sweep_count++;
+		sweep_new = $("#sweep"+sweep_count);
+		sweep_old.css('position','absolute');
+		sweep_old.hide('slide', {direction: 'left'}, 500, function() { });
+		sweep_new.show('slide', {direction: 'right'}, 500);
+		if(sweep_count < 7 ) {
+			setTimeout(function() { sweep_out(); }, 4500);
+		} else {
+			setTimeout(function() { $("#onboarding").hide('slide', {direction: 'left'}, 500, function() { }); }, 4500);
+		}
+	}
+
+	$("#onboarding img").click(function(e) {
+        $("#onboarding").fadeOut();
+    });
+
+	$("#close_onboard").click(function(e) {
+        $("#onboarding").fadeOut();
+    });
+
+
+	$(window).load(function(){
+		$('#preloader').fadeOut('slow',function(){$(this).remove();});
+		/*if(!window.mobilecheck()) {
+			$('#onboarding').fadeIn();
+			setTimeout(function() { sweep_out(); }, 3000);
+		}*/
+	});
+
+	function door_additional_preview() {
+		previews = $("#door_area").html();
+		if( $("#door_additional #quantity_door").find(".small_preview").length > 1) {
+			 $("#door_additional #quantity_door").find(".small_preview").html(previews);
+		} else {
+			$("img", $("#door_additional #quantity_door")).after('<div class="small_preview">' + previews + '</div>');
+		}
+	}
+
+	function addslashes(str) {
+	  return (str + '')
+		.replace(/[\\"']/g, '\\$&')
+		.replace(/\u0000/g, '\\0');
+	}
+	function timeStamp() {
+	// Create a date object with the current time
+	  var now = new Date();
+
+	// Create an array with the current month, day and time
+	  var date = [ now.getMonth() + 1, now.getDate(), now.getFullYear() ];
+
+	// Create an array with the current hour, minute and second
+	  var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ];
+
+	  return date.join("/") + " " + time.join(":");
+	}
+
+	$("#door_form").submit(function(e) {
+		var reqempty = false;
+		$(".required_one").each(function(index, element) {
+           if($(this).val() == "") {
+				reqempty = true;
+			}
+        });
+		if(reqempty) {
+			if ($("#choose_door_input").val() != 'Frame Only'){
+				alert("Please provide Contact Details.");
+				return false;
+			}
+			return true;
+		}
+		generateImageFields();
+		if($("#emailz").val() != $("#emailz2").val()) {
+			alert("Email addresses are not matched.");
+			return false;
+		}
+		$("#disable_me").attr("disabled","disabled");
+		ga('send', 'event', 'DoorOption', 'Submitted', timeStamp());
+		return true;
+	});
+
+	$("body").on("click",".qty_main_inc",function(e) {
+	  inputv = $(this).parent().find(".qty_main_input");
+	  $(inputv).val(parseInt($(inputv).val()) + 1);
+	});
+
+	$("body").on("click",".qty_main_dec",function(e) {
+	  inputv = $(this).parent().find(".qty_main_input");
+	  nval = parseInt($(inputv).val()) - 1;
+	  if(nval < 1) nval = 1;
+	  $(inputv).val(nval);
+	});
+
+	function uniform_height(parnt) {
+		if(parnt == '#shipping_last')
+			return;
+		var max_height = 0;
+		$(parnt).find(".btn").not(".no_maxh").each(function(index, element) {
+			if($(this).height() > max_height && !($(this).hasClass("no_maxh")))
+				max_height = $(this).height();
+		});
+		$(".btn", $(parnt)).not(".no_maxh").height(max_height);
+
+	}
+
+	function generateImageFields() {
+		$("#imgfields").html("");
+		var text = "";
+		$("#door_area img").each(function(index, element) {
+			if($(this).attr('src') != 'images/trans.png' && !$(this).is(":hidden"))
+				text = text + '<input type="hidden" name="images['+$(this).attr('id')+']" value="'+$(this).attr('src')+'">';
+		});
+		$("#imgfields").html(text);
+	}
+
+	function update_sidenotes(prnt_id) {
+		$prnt = $("#"+prnt_id);
+		if($prnt.data("note-skip"))
+			return;
+		$prnt_input = ($prnt.data("note-input")) ? $($prnt.data("note-input")) : $("#"+prnt_id+"_input");
+		$prnt_notes = $("#"+prnt_id+"_note");
+		$note_pre = ($prnt.data("std")) ? $prnt.data("std")+ ': '  : '';
+		$note =  ($prnt.data("note-text")) ? $note_pre + $prnt.data("note-text") : $note_pre + $prnt_input.val();
+		if($prnt.data("note-parent")) {
+			$note_prnt = $("#notes_area").find("#" +$prnt.data("note-parent"));
+			if(!($note_prnt.length > 0)) {
+				$("#notes_area").append('<tr><td id="'+$prnt.data("note-parent")+'"></td></tr>');
+				$note_prnt = $("#notes_area").find("#" +$prnt.data("note-parent"));
+			}
+			$note_child = $note_prnt.find("#" + $prnt.data("note-child"));
+			if($note_child.length > 0) {
+				$note_prnt = $note_child.text($note);
+			} else {
+				$note_prnt.append('<span id="'+$prnt.data("note-child")+'" class="note_line">'+$note+'</span>');
+			}
+
+		} else {
+			if($prnt_notes.length > 0)
+				$prnt_notes.text($note);
+			else
+				$("#notes_area").append('<tr><td id="'+prnt_id+'_note">'+$note+'</td></tr>');
+		}
+
+		if(once_scroll)
+			$("#notes_a").jScrollPane({ verticalGutter : 0});
+	}
+
+
+
+	function saveDoor() {
+		generateImageFields();
+		form_data = $("#door_form").serialize();
+		$(".btn-primary").removeClass("btn-primary");
+		$("#door_additional #quantity_door").find(".small_preview").remove();
+		$(".icons img").hide();
+		$("#instock_order").show();
+		var view_only= ["handing_layer", "frame_layer", "gradient_layer"];
+		$("#door_area img").each(function(index, element) {
+			if(view_only.indexOf($(this).attr("id")) < 0)
+				$(this).attr("src","images/trans.png");
+			else
+				$(this).show();
+		});
+		page_count++;
+		doorView = {
+
+				view : 'back', // Outside or Inside
+
+				type : 'metal', //metal or wood
+
+				sides : 'single', // single or double
+
+				welded : 'simple', //welded or simple
+
+				wired : 'simple', // Wired or simple
+
+				color : 'grey', // grey or brown
+
+				handing: 'left',
+
+				framesize: 'normal',
+
+				preview_hand : 'handing-2'
+			};
+
+
+
+			hardware = {
+
+				closer : false,
+
+				doorstop: false,
+
+				pushplate: false,
+
+				pullplate: false,
+
+				deadbolt : false,
+
+				handing : true,
+
+				handingBack: false,
+
+				threshold: false,
+
+				outsideHandle : false,
+
+				doorstrike : false
+			};
+
+		$(".qty_main_input").val("1");
+
+		$.post('saveDoor.php', form_data, function(response) {
+			$(".m_selection").remove();
+			$("input[type=hidden]").not("#add_additional_doors input[type=hidden]").val("");
+			$("input[type=number]").val("0");
+			$("#notes_area").html("");
+			$(".single_row").hide();
+			$("#choose_door").show();
+			$("#imgfields").html("");
+			once_scroll = false;
+
+			var eofst = $("#choose_door").offset();
+			$('html,body').animate(
+			{
+			  scrollTop: eofst.top-40
+			},
+			 1200);
+			 $("#myModal").modal('hide');
+		});
+	}
+
+	$("#saveProgress").click(function(e) {
+		saveDoor();
+	});
+
+	$.get('quoteNumber.php', '', function(response) {
+		$("#quote_no").val(response);
+	});
+});
